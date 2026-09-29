@@ -1,0 +1,847 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Tailwind v4 is "CSS-first": instead of a tailwind.config.js, tokens are declared here and
+   Tailwind generates utilities from them. A `--color-paper` token gives you `bg-paper`,
+   `text-paper`, `border-paper`, and so on. This file is the only place visual values live. */
+
+/* Dark mode is driven by a `class="dark"` on <html>, which next-themes sets before paint. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ---------------------------------------------------------------------
+     Brand palette — fixed values that never change between light and dark.
+     Estimated from the club's posters; correct them here and the whole site follows.
+     --------------------------------------------------------------------- */
+  --color-paper: #ece9e2;
+  --color-paper-2: #e2ded6;
+  --color-paper-3: #f5f3ee;
+  --color-ink: #1f1f1f;
+  --color-ink-2: #3a3a3a;
+  --color-ink-3: #6b6760;
+
+  --color-brand-yellow: #ffc83d;
+  --color-brand-blue: #2f7bea;
+  --color-brand-green: #3fb27f;
+
+  --color-navy: #13297a;
+  --color-sky: #3da9f2;
+  --color-signal-red: #c8202c;
+  --color-eco: #5b9a68;
+  --color-charcoal-panel: #2a2a2a;
+  --color-mint: #cfe6d3;
+  --color-purple: #8e2de2;
+
+  /* Dark-mode base, taken from the logo's own background. */
+  --color-night: #0b0b0b;
+  --color-night-2: #161616;
+  --color-night-3: #1f1f1f;
+  --color-chalk: #f2efe8;
+  --color-chalk-2: #c9c5bd;
+  --color-chalk-3: #98948c;
+
+  /* ---------------------------------------------------------------------
+     Typography — the four families, loaded by src/lib/fonts.ts
+     --------------------------------------------------------------------- */
+  --font-display: var(--font-anton), "Bebas Neue", Impact, sans-serif;
+  --font-wide: var(--font-unbounded), system-ui, sans-serif;
+  --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-body: var(--font-poppins), system-ui, sans-serif;
+
+  /* Fluid type scale. clamp(min, preferred, max) grows with the viewport but never
+     escapes the bounds, so one value covers 360px through 1536px without breakpoints. */
+  --text-hero: clamp(3rem, 11vw, 7.5rem);
+  --text-display: clamp(2.25rem, 7vw, 4.5rem);
+  --text-title: clamp(1.75rem, 4vw, 2.75rem);
+  --text-heading: clamp(1.375rem, 2.5vw, 1.75rem);
+  --text-subheading: clamp(1.125rem, 1.8vw, 1.25rem);
+  --text-eyebrow: clamp(0.6875rem, 1vw, 0.8125rem);
+
+  --leading-display: 0.95;
+  --tracking-display: -0.01em;
+  --tracking-eyebrow: 0.18em;
+  --tracking-wide-label: 0.06em;
+
+  /* ---------------------------------------------------------------------
+     Shape, depth, motion
+     --------------------------------------------------------------------- */
+  --radius-card: 0.625rem; /* 10px */
+  --radius-panel: 1.25rem;
+  --radius-pill: 9999px;
+
+  --border-width-hairline: 1.5px; /* the poster ink-line weight */
+
+  --ease-out-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-brand: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+
+  /* Layout */
+  --container-site: 80rem; /* 1280px */
+  --spacing-section: clamp(3.5rem, 8vw, 7rem);
+  --spacing-gutter: 1rem;
+}
+
+/* ---------------------------------------------------------------------
+   Semantic tokens. Components reference these (bg-surface, text-body) rather than raw
+   palette colours, so light and dark are one definition instead of `dark:` on every element.
+   `@theme inline` emits utilities that point at the variables below instead of copying
+   their values, which is what lets them flip at runtime.
+   --------------------------------------------------------------------- */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-panel: var(--panel);
+  --color-body: var(--body-text);
+  --color-body-2: var(--body-text-2);
+  --color-body-3: var(--body-text-3);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-on-panel: var(--on-panel);
+
+  --z-index-base: 0;
+  --z-index-sticky: 30;
+  --z-index-nav: 40;
+  --z-index-overlay: 50;
+  --z-index-loader: 60;
+}
+
+:root {
+  --surface: var(--color-paper);
+  --surface-2: var(--color-paper-2);
+  --surface-3: var(--color-paper-3);
+  --panel: var(--color-charcoal-panel);
+  --on-panel: var(--color-paper-3);
+
+  --body-text: var(--color-ink);
+  --body-text-2: var(--color-ink-2);
+  --body-text-3: var(--color-ink-3);
+
+  --line: var(--color-ink);
+  --line-soft: color-mix(in srgb, var(--color-ink) 22%, transparent);
+
+  --wordmark-a: var(--color-ink);
+  --wordmark-b: var(--color-brand-blue);
+  /* Not yellow on paper — it fails contrast as text. Navy keeps the cycle legible. */
+  --wordmark-c: var(--color-navy);
+
+  --grain-opacity: 0.035;
+  color-scheme: light;
+}
+
+.dark {
+  --surface: var(--color-night);
+  --surface-2: var(--color-night-2);
+  --surface-3: var(--color-night-3);
+  --panel: var(--color-night-2);
+  --on-panel: var(--color-chalk);
+
+  --body-text: var(--color-chalk);
+  --body-text-2: var(--color-chalk-2);
+  --body-text-3: var(--color-chalk-3);
+
+  --line: var(--color-chalk);
+  --line-soft: color-mix(in srgb, var(--color-chalk) 20%, transparent);
+
+  --wordmark-a: var(--color-chalk);
+  --wordmark-b: var(--color-brand-blue);
+  --wordmark-c: var(--color-brand-yellow);
+
+  /* Grain reads much louder on a near-black page, so it's dialled back. */
+  --grain-opacity: 0.022;
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------
+   Per-event accent. An event page sets data-accent="eco" on its wrapper and every
+   accent-coloured element inside it follows, with no per-event CSS.
+   --------------------------------------------------------------------- */
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+
+  /* Full-bleed colour bands. Each pairs a background with the one text colour that
+     passes AA on it, so a band can never be used with unreadable text. */
+  --color-band-yellow: var(--color-brand-yellow);
+  --color-on-band-yellow: var(--color-ink);
+  --color-band-blue: var(--color-brand-blue);
+  --color-on-band-blue: #ffffff;
+  --color-band-charcoal: var(--color-charcoal-panel);
+  --color-on-band-charcoal: var(--color-paper-3);
+}
+
+:root,
+[data-accent="ink"] {
+  --accent: var(--color-ink);
+  --accent-contrast: var(--color-paper-3);
+}
+.dark,
+.dark [data-accent="ink"] {
+  --accent: var(--color-chalk);
+  --accent-contrast: var(--color-night);
+}
+[data-accent="yellow"] {
+  --accent: var(--color-brand-yellow);
+  --accent-contrast: var(--color-ink);
+}
+[data-accent="blue"] {
+  --accent: var(--color-brand-blue);
+  --accent-contrast: #ffffff;
+}
+[data-accent="eco"] {
+  --accent: var(--color-eco);
+  --accent-contrast: #ffffff;
+}
+[data-accent="red"] {
+  --accent: var(--color-signal-red);
+  --accent-contrast: #ffffff;
+}
+[data-accent="navy"] {
+  --accent: var(--color-navy);
+  --accent-contrast: #ffffff;
+}
+[data-accent="sky"] {
+  --accent: var(--color-sky);
+  --accent-contrast: var(--color-ink);
+}
+[data-accent="mint"] {
+  --accent: var(--color-mint);
+  --accent-contrast: var(--color-ink);
+}
+[data-accent="purple"] {
+  --accent: var(--color-purple);
+  --accent-contrast: #ffffff;
+}
+
+/* In dark mode the darker accents lose contrast against a near-black page, so they
+   lighten. Every preset stays at AA in both themes. */
+.dark [data-accent="navy"] {
+  --accent: #6d8ae8;
+  --accent-contrast: var(--color-night);
+}
+.dark [data-accent="eco"] {
+  --accent: #7cc28c;
+  --accent-contrast: var(--color-night);
+}
+.dark [data-accent="red"] {
+  --accent: #f26d76;
+  --accent-contrast: var(--color-night);
+}
+.dark [data-accent="blue"] {
+  --accent: #6ba5f5;
+  --accent-contrast: var(--color-night);
+}
+.dark [data-accent="purple"] {
+  --accent: #b46bf0;
+  --accent-contrast: var(--color-night);
+}
+
+/* --------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--line-soft);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Stops the page sliding sideways when a sticky bar appears/disappears. */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--body-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* One focus style for the entire site. brand-blue reads clearly on paper and on night.
+     On a blue band it would disappear, so there the ring flips to the band's text colour. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-blue);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .band-blue :focus-visible,
+  .band-charcoal :focus-visible {
+    outline-color: var(--color-brand-yellow);
+  }
+
+  /* Headlines are uppercase display type everywhere. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  ::selection {
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  /* The poster's signature stroke-only headline line. Paired with a solid line above it
+     by the <Headline> component.
+
+     Note: `color: transparent` would ALSO make `currentColor` transparent, leaving an
+     invisible stroke. `-webkit-text-fill-color` clears only the glyph fill, so `color`
+     survives to paint the outline. */
+  .text-outline,
+  .text-outline-thick {
+    -webkit-text-fill-color: transparent;
+    paint-order: stroke fill;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+
+  .text-outline-thick {
+    -webkit-text-stroke: 2.5px currentColor;
+  }
+
+  /* Firefox pre-49 and anything else without text-stroke would render nothing at all,
+     so fall back to solid text rather than an invisible line. */
+  @supports not (-webkit-text-stroke: 1px currentColor) {
+    .text-outline,
+    .text-outline-thick {
+      -webkit-text-fill-color: currentColor;
+      opacity: 0.55;
+    }
+  }
+
+  /* Full-bleed colour bands (Part 3 of the build brief). Setting `color` here means
+     descendants inherit a readable value without every child needing a `text-` class. */
+  .band-yellow {
+    background-color: var(--color-band-yellow);
+    color: var(--color-on-band-yellow);
+  }
+  .band-blue {
+    background-color: var(--color-band-blue);
+    color: var(--color-on-band-blue);
+  }
+  .band-charcoal {
+    background-color: var(--color-band-charcoal);
+    color: var(--color-on-band-charcoal);
+  }
+
+  /* The yellow highlighter stroke behind a key word in a headline. Drawn as a background
+     layer sitting behind the text baseline rather than a box, so it reads as marker pen.
+     Yellow is never used as TEXT on paper — contrast is far too low — only as a fill. */
+  .highlight-yellow {
+    background-image: linear-gradient(var(--color-brand-yellow), var(--color-brand-yellow));
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    background-size: 100% 0.36em;
+    /* The ink text sits on top of the yellow, which is the AA-safe pairing. */
+    color: var(--color-ink);
+    padding-inline: 0.1em;
+  }
+
+  /* A word inside a headline that picks up a brand colour. */
+  .accent-blue {
+    color: var(--color-brand-blue);
+  }
+  .outline-yellow {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2.5px var(--color-brand-yellow);
+    paint-order: stroke fill;
+  }
+
+  /* Poster/sticker depth: a hard offset block, never a soft blur. */
+  .shadow-hard {
+    box-shadow: 4px 4px 0 0 var(--line);
+  }
+  .shadow-hard-sm {
+    box-shadow: 2px 2px 0 0 var(--line);
+  }
+
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  @media (min-width: 768px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-y {
+    padding-block: var(--spacing-section);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Intro loader. Kept in CSS rather than an animation library so the loading screen
+   doesn't drag a JS dependency onto every route just to fade one element in.
+   --------------------------------------------------------------------- */
+@keyframes loader-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes loader-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.loader-logo {
+  animation: loader-logo-in 380ms var(--ease-out-brand) both;
+}
+
+.loader-leaving {
+  animation: loader-out 300ms var(--ease-out-brand) forwards;
+}
+
+/* ---------------------------------------------------------------------
+   Marquee and scroll reveal. CSS rather than an animation library: these run on the
+   compositor, cost no JavaScript, and keep the app bundle inside its budget.
+   --------------------------------------------------------------------- */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* The track holds two identical copies, so shifting by exactly half loops seamlessly. */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 32s) linear infinite;
+}
+
+.marquee-track[data-direction="reverse"] {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Marquees stop entirely when scrolled out of view or the tab is hidden, so an offscreen
+   loop never burns battery. The IntersectionObserver in <Marquee> sets data-paused. */
+.marquee[data-paused="true"] .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Horizontal scroll-snap rail — the mobile event carousel. */
+.snap-rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.snap-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-rail > * {
+  scroll-snap-align: start;
+}
+
+/* Scroll reveal: hidden until <Reveal> marks it visible. Transform and opacity only.
+   
+   Wrapped in `scripting: enabled` so it fails safe. If JavaScript is blocked, broken or
+   still loading — or the browser is too old to understand the query — the rule never
+   applies and the content is simply visible. Hiding content by default in the server HTML
+   would mean a single JS failure blanks the entire page. */
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out-brand),
+      transform var(--duration-slow) var(--ease-out-brand);
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Motion primitives. CSS keyframes rather than a JS animation library: these run on the
+   compositor and cost nothing against the JS budget.
+   --------------------------------------------------------------------- */
+
+/* Letters/words rising into a headline, staggered by --i from the component. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.6em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise-in > * {
+  display: inline-block;
+}
+
+/* Hidden only when JS can actually reveal it again — otherwise a blocked script would
+   leave the headline invisible. Same fail-safe rule as .reveal. */
+@media (scripting: enabled) {
+  .rise-in > * {
+    opacity: 0;
+  }
+
+  [data-visible="true"] .rise-in > * {
+    animation: rise-in 520ms var(--ease-out-brand) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  [data-visible="true"] .stroke-wipe {
+    animation: stroke-wipe 700ms var(--ease-out-brand) both;
+    animation-delay: 220ms;
+  }
+
+  [data-visible="true"] .podium-rise > * {
+    animation: podium-rise 620ms var(--ease-out-brand) both;
+    animation-delay: calc(var(--i, 0) * 180ms);
+  }
+
+  [data-visible="true"].draw-line path,
+  [data-visible="true"].draw-line rect,
+  [data-visible="true"].draw-line line,
+  [data-visible="true"].draw-line circle,
+  [data-visible="true"].draw-line ellipse {
+    animation: draw-line 1200ms var(--ease-out-brand) both;
+  }
+}
+
+/* The outlined headline line drawing its stroke in. clip-path is compositor-friendly. */
+@keyframes stroke-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Dotted frames and connector lines drawing themselves in. */
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The results podium rising 3rd, 2nd, 1st. */
+@keyframes podium-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The typewriter caret. A solid block that blinks, sized to the text it follows. */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.type-caret {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.78em;
+  margin-left: 0.06em;
+  vertical-align: baseline;
+  /* Follows the line's own colour, so the caret always matches the text it is typing. */
+  background-color: currentColor;
+  animation: caret-blink 1s step-end infinite;
+}
+
+/* The logo mark and the hero wordmark both carry a soft brand-coloured glow. */
+.mark-glow {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--color-brand-blue) 45%, transparent))
+    drop-shadow(0 0 40px color-mix(in srgb, var(--color-brand-yellow) 22%, transparent));
+}
+
+.text-glow {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--color-brand-yellow) 30%, transparent),
+    0 0 60px color-mix(in srgb, var(--color-brand-blue) 22%, transparent);
+}
+
+/* Each letter rides a slow wave. Staggering the delay per letter turns a row of bobbing
+   glyphs into a wave travelling across the word. Transform only — no layout, no jitter. */
+@keyframes wordmark-wave {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(0, -0.055em, 0) rotate(-0.6deg);
+  }
+  75% {
+    transform: translate3d(0, 0.045em, 0) rotate(0.5deg);
+  }
+}
+
+/* Colour cycle for the wordmark. Theme-aware: on paper it runs ink -> blue, because
+   yellow text on paper fails contrast; on night it can use the full brand yellow. */
+@keyframes wordmark-hue {
+  0%,
+  100% {
+    color: var(--wordmark-a);
+  }
+  33% {
+    color: var(--wordmark-b);
+  }
+  66% {
+    color: var(--wordmark-c);
+  }
+}
+
+.wordmark-letter {
+  animation:
+    wordmark-wave 3.2s ease-in-out infinite,
+    wordmark-hue 7.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* A brand-coloured sheen sweeping across the wordmark every few seconds. */
+@keyframes wordmark-sheen {
+  0%,
+  72% {
+    background-position: -140% 0;
+  }
+  100% {
+    background-position: 240% 0;
+  }
+}
+
+/* IMPORTANT: never combine this with `text-shadow`. `background-clip: text` makes the
+   glyphs themselves transparent, so a text-shadow bleeds straight through them and the
+   word renders as a blur with no sharp letters. The sheen provides the colour movement;
+   the glow is not needed on top of it. */
+.wordmark-sheen {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 38%,
+    var(--color-brand-yellow) 47%,
+    var(--color-brand-blue) 55%,
+    currentColor 64%,
+    currentColor 100%
+  );
+  background-size: 240% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wordmark-sheen 6s ease-in-out infinite;
+}
+
+/* Hero rings, turning slowly in opposite directions. */
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ring-spin-slow {
+  animation: ring-spin 64s linear infinite;
+}
+
+.ring-spin-reverse {
+  animation: ring-spin 46s linear infinite reverse;
+}
+
+/* The gentle scroll cue under the hero. */
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+.scroll-cue {
+  animation: scroll-cue 1800ms ease-in-out infinite;
+}
+
+/* Cards fading in after a filter change. Cheap, and never blocks the click the way a
+   view transition does. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card-in {
+  animation: card-in 260ms var(--ease-out-brand) both;
+}
+
+/* Photos that pop forward on hover: scale up, lift above their neighbours, and pick up a
+   hard shadow. Only on devices that genuinely hover — on a touchscreen :hover sticks after
+   a tap and would leave a photo stranded mid-pop. */
+.photo-pop {
+  position: relative;
+  transition:
+    transform var(--duration-base) var(--ease-out-brand),
+    box-shadow var(--duration-base) var(--ease-out-brand);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo-pop:hover,
+  .photo-pop:focus-visible {
+    z-index: 20;
+    transform: scale(1.12);
+    box-shadow: 6px 6px 0 0 var(--color-brand-yellow);
+  }
+}
+
+/* Masonry images fading in as they decode. */
+@keyframes image-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.image-in {
+  animation: image-in 520ms var(--ease-out-brand) both;
+}
+
+/* ---------------------------------------------------------------------
+   Route entrance. Applied by app/template.tsx, which Next re-mounts on every navigation.
+
+   This replaced a React <ViewTransition>. A view transition makes the whole document
+   non-interactive while it runs — and it ran on every initial load for ~750ms, so a
+   visitor's first click was silently dropped. A CSS animation never blocks input.
+
+   Transform only, deliberately: fading from opacity 0 would delay LCP, because an
+   element at opacity 0 does not count as painted.
+   --------------------------------------------------------------------- */
+@keyframes page-enter {
+  from {
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-enter 280ms var(--ease-out-brand) both;
+}
+
+/* ---------------------------------------------------------------------
+   Reduced motion. The brief requires content to appear immediately with no movement,
+   not just shorter movement — so animations are cancelled, not merely sped up.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Content must be present immediately, and the marquee must not loop at all. */
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Split headlines, podiums, draws and cues all show their final state instantly. */
+  .rise-in > *,
+  .podium-rise > * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .stroke-wipe,
+  .draw-line path,
+  .draw-line rect,
+  .draw-line line,
+  .draw-line circle,
+  .draw-line ellipse {
+    animation: none !important;
+    clip-path: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .scroll-cue,
+  .image-in,
+  .card-in,
+  .ring-spin-slow,
+  .ring-spin-reverse,
+  .type-caret,
+  .wordmark-sheen,
+  .wordmark-letter {
+    animation: none !important;
+    transform: none !important;
+    color: var(--wordmark-a) !important;
+  }
+
+  /* Without the sweep the clipped gradient would leave the wordmark invisible. */
+  .wordmark-sheen {
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .page-enter {
+    animation: none !important;
+  }
+}

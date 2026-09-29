@@ -1,0 +1,10 @@
+.next
+node_modules
+pnpm-lock.yaml
+public
+docs/reference
+assets-source
+coverage
+.lighthouseci
+playwright-report
+test-results

@@ -1,0 +1,103 @@
+import { galleryAlbumSchema, parseContent } from "./schema";
+import { z } from "zod";
+
+/**
+ * One album per event that has photographs.
+ *
+ * Events without photos simply have no album — the gallery shows what exists rather than
+ * padding itself with poster screenshots, and the Gallery page has a designed empty state
+ * for when nothing matches a filter.
+ *
+ * Alt text describes what is visible without naming anyone.
+ *
+ * TODO: more photos are coming from the club. Drop them in
+ * `assets-source/events/<event-slug>/`, run `pnpm optimize-images`, and paste the printed
+ * width/height values in here.
+ */
+export const gallery = parseContent(
+  z.array(galleryAlbumSchema),
+  [
+    {
+      slug: "ethos-2026",
+      title: "ETHOS 2026 — The Decision Matrix",
+      eventSlug: "ethos-2026",
+      date: "2026-08-07T10:30:00+05:30",
+      cover: "/images/events/ethos-2026/group.webp",
+      images: [
+        {
+          src: "/images/events/ethos-2026/group.webp",
+          alt: "Participants, jury and faculty of ETHOS 2026 gathered together in the hall at JNTUH after the boardroom challenge",
+          width: 1200,
+          height: 900,
+        },
+        {
+          src: "/images/events/ethos-2026/audience.webp",
+          alt: "Attendees seated at round tables watching a session at ETHOS 2026, with panellists on stage",
+          width: 750,
+          height: 496,
+        },
+        {
+          src: "/images/events/ethos-2026/winners-1.webp",
+          alt: "A winning team receiving their certificate and trophy from the jury and faculty on stage at ETHOS 2026",
+          width: 1200,
+          height: 900,
+        },
+        {
+          src: "/images/events/ethos-2026/winners-2.webp",
+          alt: "A runner-up team being presented with their certificate by the jury at ETHOS 2026",
+          width: 1200,
+          height: 900,
+        },
+        {
+          src: "/images/events/ethos-2026/winners-3.webp",
+          alt: "A placing team collecting their certificate alongside the jury and faculty at ETHOS 2026",
+          width: 1200,
+          height: 900,
+        },
+      ],
+    },
+    {
+      slug: "ethos-2025",
+      title: "ETHOS 2025 — Dilemma Decoded",
+      eventSlug: "ethos-2025",
+      date: "2025-02-01T10:00:00+05:30",
+      cover: "/images/events/ethos-2025/speaker.webp",
+      images: [
+        {
+          src: "/images/events/ethos-2025/speaker.webp",
+          alt: "A speaker addressing the room at ETHOS 2025, with the session's introduction slide projected behind",
+          width: 607,
+          height: 581,
+        },
+        {
+          src: "/images/events/ethos-2025/presenter.webp",
+          alt: "A participant presenting a business analytics dashboard to the room during ETHOS 2025",
+          width: 632,
+          height: 753,
+        },
+        {
+          src: "/images/events/ethos-2025/audience.webp",
+          alt: "A full room of attendees working on laptops during a session at ETHOS 2025",
+          width: 768,
+          height: 597,
+        },
+      ],
+    },
+    {
+      slug: "pitch-perfect-2",
+      title: "Pitch Perfect 2.0",
+      eventSlug: "pitch-perfect-2",
+      date: "2026-01-28T10:00:00+05:30",
+      cover: "/images/events/pitch-perfect-2/group-hall.webp",
+      images: [
+        {
+          src: "/images/events/pitch-perfect-2/group-hall.webp",
+          alt: "A wider view of the Pitch Perfect 2.0 group on stage, with the auditorium screens behind them",
+          width: 1200,
+          height: 900,
+        },
+      ],
+    },
+  ],
+  "gallery.ts",
+);
