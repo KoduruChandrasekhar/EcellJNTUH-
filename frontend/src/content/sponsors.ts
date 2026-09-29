@@ -47,7 +47,7 @@ export const sponsors = parseContent(
     reach: [
       // The first three are overwritten by getSponsors() from the events data.
       { label: "Events hosted", value: 0, approximate: false },
-      { label: "Students reached", value: 0, suffix: "+", approximate: true },
+      { label: "Total attendance", value: 0, suffix: "+", approximate: true },
       { label: "Colleges represented", value: 0, suffix: "+", approximate: true },
       // TODO: ask the committee for the real follower count.
       { label: "Social media followers", value: 1000, suffix: "+", approximate: true },

@@ -42,7 +42,7 @@ export default async function InitiativePage({ params }: PageProps<"/initiatives
       </Reveal>
 
       <Reveal delay={80}>
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr]">
           <p className="text-body-2 leading-relaxed">{initiative.description}</p>
           <div className="border-line-soft border-t pt-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
             <p className="text-body-3 text-xs tracking-(--tracking-eyebrow) uppercase">Purpose</p>
@@ -59,7 +59,7 @@ export default async function InitiativePage({ params }: PageProps<"/initiatives
         </Reveal>
 
         {events.length > 0 ? (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {events.map((event, i) => (
               <Reveal key={event.slug} delay={i * 70}>
                 <EventCard event={event} />

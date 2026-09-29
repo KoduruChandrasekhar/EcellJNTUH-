@@ -45,10 +45,18 @@ function derivedTotals() {
 
   return {
     eventsHosted: topLevel.length,
-    // Sub-sessions are excluded: their attendees are already counted in the parent.
-    studentsReached: reported
+    /**
+     * Summed attendance, NOT unique students — someone who came to all three reported
+     * events counts three times. The label says "attendance" for exactly that reason;
+     * calling it "students reached" would claim a unique headcount the data can't support.
+     *
+     * Sub-sessions are excluded: their attendees are already counted in the parent.
+     */
+    totalAttendance: reported
       .filter(isTopLevel)
       .reduce((total, event) => total + (event.participation?.participants ?? 0), 0),
+    /** How many events that figure actually covers, so the page can say so. */
+    eventsWithFigures: reported.filter(isTopLevel).length,
     // The widest single event, not a sum — the same college turning up twice isn't two.
     colleges: Math.max(0, ...reported.map((event) => event.participation?.colleges ?? 0)),
     // Speakers and jurors are named people; the same person on two panels counts once.
@@ -68,7 +76,7 @@ export async function getStats() {
   // side they read as a rendering bug rather than a coincidence.
   return [
     { label: "Events hosted", value: totals.eventsHosted, approximate: false },
-    { label: "Students reached", value: totals.studentsReached, suffix: "+", approximate: true },
+    { label: "Total attendance", value: totals.totalAttendance, suffix: "+", approximate: true },
     { label: "Colleges represented", value: totals.colleges, suffix: "+", approximate: true },
     { label: "Speakers and jury hosted", value: totals.peopleHosted, approximate: false },
     ...site.stats,
@@ -232,7 +240,7 @@ export async function getSponsors() {
   const totals = derivedTotals();
   const computed: Record<string, number> = {
     "Events hosted": totals.eventsHosted,
-    "Students reached": totals.studentsReached,
+    "Total attendance": totals.totalAttendance,
     "Colleges represented": totals.colleges,
   };
 
@@ -241,6 +249,9 @@ export async function getSponsors() {
     reach: sponsors.reach.map((stat) =>
       stat.label in computed ? { ...stat, value: computed[stat.label]! } : stat,
     ),
+    /** How many events the attendance figure is drawn from, for the caption. */
+    eventsWithFigures: totals.eventsWithFigures,
+    eventsHosted: totals.eventsHosted,
   };
 }
 

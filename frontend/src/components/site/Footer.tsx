@@ -26,7 +26,7 @@ export async function Footer() {
 
   return (
     <footer className="border-line-soft bg-surface-2 mt-auto border-t">
-      <div className="container-site grid gap-10 py-14 md:grid-cols-[1.2fr_1fr_1fr]">
+      <div className="container-site grid grid-cols-1 gap-10 py-14 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <LockupLink size="lg" />
           <p className="font-wide text-body-3 mt-5 text-sm tracking-(--tracking-wide-label) uppercase">

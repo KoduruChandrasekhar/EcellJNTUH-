@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { OG_CONTENT_TYPE, OG_SIZE, OgCard } from "@/lib/og/card";
 import { getAllEventSlugs, getEventBySlug } from "@/lib/data";
 import { formatDate, formatMonthYear } from "@/lib/dates";
+import { categoryLabel } from "@/lib/labels";
 
 export const alt = "E-Cell JNTUH event";
 export const size = OG_SIZE;
@@ -33,7 +34,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   return new ImageResponse(
     (
       <OgCard
-        eyebrow={event.category.replace(/-/g, " ")}
+        eyebrow={categoryLabel(event.category)}
         title={event.title}
         meta={event.venue ? `${date} · ${event.venue}` : date}
       />

@@ -11,7 +11,7 @@ export default function Loading() {
       <div className="bg-surface-2 mt-6 h-16 w-full max-w-2xl animate-pulse rounded-(--radius-card) md:h-24" />
       <div className="bg-surface-2 mt-3 h-16 w-3/4 max-w-xl animate-pulse rounded-(--radius-card) md:h-24" />
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }, (_, i) => (
           <div
             key={i}

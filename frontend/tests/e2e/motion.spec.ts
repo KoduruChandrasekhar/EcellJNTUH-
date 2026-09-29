@@ -11,14 +11,32 @@ import { expect, test } from "@playwright/test";
  * visible, and everything must stop dead under reduced motion.
  */
 
-test("the above-the-fold headline reveals", async ({ page }) => {
+test("the above-the-fold headline is visible", async ({ page }) => {
   await page.goto("/", { waitUntil: "load" });
 
-  // The split headline is in view immediately, which is the case most likely to break:
-  // the observer fires during hydration, so anything that rewrites the element afterwards
+  // The hero headline is in view immediately, which is the case most likely to break: the
+  // observer fires during hydration, so anything that rewrites the element afterwards
   // would strand it at opacity 0 with no error.
-  const firstWord = page.locator("h1 .rise-in > *").first();
-  await expect(firstWord).toHaveCSS("opacity", "1", { timeout: 5000 });
+  //
+  // The hero h1 holds the animated wordmark (per-letter wave), so the letters are what
+  // must end up painted. Asserting on the letters rather than on the h1 is deliberate:
+  // an h1 at opacity 1 whose children are all transparent still renders nothing.
+  const letters = page.locator("h1 .wordmark-letter");
+  await expect(letters.first()).toHaveCSS("opacity", "1", { timeout: 5000 });
+  await expect(letters.last()).toHaveCSS("opacity", "1", { timeout: 5000 });
+
+  // The screen-reader text must carry the whole word, since the letters are aria-hidden.
+  await expect(page.locator("h1 .sr-only")).toHaveText(/\S/);
+});
+
+test("section headlines further down the page reveal on scroll", async ({ page }) => {
+  await page.goto("/", { waitUntil: "load" });
+
+  // SplitHeadline is the component the rest of the page uses; it starts hidden and is
+  // revealed by IntersectionObserver, which is the mechanism most likely to fail silently.
+  const headline = page.locator(".rise-in > *").first();
+  await headline.scrollIntoViewIfNeeded();
+  await expect(headline).toHaveCSS("opacity", "1", { timeout: 5000 });
 });
 
 /**

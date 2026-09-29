@@ -101,7 +101,7 @@ export default async function JoinPage() {
           </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {join.roles.map((role, i) => (
             <Reveal key={role.title} delay={i * 70}>
               <Card className="h-full p-6">

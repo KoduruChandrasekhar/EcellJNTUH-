@@ -64,7 +64,7 @@ export default async function HomePage() {
           roughly 1000px and 1280px. `clip` rather than `hidden` so no scroll container is
           created and sticky positioning inside still works. */}
       <section className="-mt-20 flex min-h-dvh items-center overflow-x-clip md:-mt-24">
-        <div className="container-site grid w-full gap-12 pt-28 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-24">
+        <div className="container-site grid grid-cols-1 w-full gap-12 pt-28 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-24">
           <div>
             {featured && featuredIsAhead ? (
               <div className="mb-6">
@@ -143,10 +143,7 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </dl>
-          <p className="mt-8 text-xs opacity-70">
-            Counted from our own event records and post-event reports. Figures marked ~ are
-            the rounded ones those reports give.
-          </p>
+          <p className="mt-8 text-xs opacity-70">Figures marked ~ are approximate.</p>
         </div>
       </section>
 
@@ -170,7 +167,7 @@ export default async function HomePage() {
               ) : null}
             </Reveal>
 
-            <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_1fr]">
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr]">
               <Reveal delay={80}>
                 <p className="text-lg leading-relaxed opacity-90">{flagship.shortDescription}</p>
                 {flagship.theme ? (
@@ -262,7 +259,7 @@ export default async function HomePage() {
         </Reveal>
 
         {upcoming.length > 0 ? (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {upcoming.map((event, i) => (
               <Reveal key={event.slug} delay={i * 80}>
                 <EventCard event={event} />
@@ -417,7 +414,7 @@ export default async function HomePage() {
       {/* --------------------------------------------------- sponsors: blue */}
       <section className="band-blue">
         <div className="container-site py-16">
-          <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
             <div>
               <SplitHeadline
                 solid="Put your brand in front of"

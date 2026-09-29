@@ -223,7 +223,9 @@ Market Mayhem is a two-round business debate built on **failed Indian business g
 - **The Rescuers** argue the failure was avoidable, and show how they would have saved it.
 - **The Doomed** argue the flaws were structural, and it was always going to crash.
 
-Round two takes the ground out from under you: you are now in charge, you draw a Mayhem Card — an unexpected market crisis — and you have sixty seconds to make the call and defend it to the judges.`,
+Round two takes the ground out from under you: you are now in charge, you draw a Mayhem Card — an unexpected market crisis — and you have sixty seconds to make the call and defend it to the judges.
+
+The day closed with a live performance by **Ragavarsha**.`,
       category: "competition",
       tagline: "The company failed. Can you do better?",
       theme: "Failed Indian business giants",
@@ -254,17 +256,47 @@ Round two takes the ground out from under you: you are now in charge, you draw a
             "A split-second executive call under fire, with the judges pushing back on every assumption.",
         },
       ],
+      results: [
+        { position: 1, teamName: "Team Balayya Mansion House" },
+        { position: 2, teamName: "Team Hash" },
+        { position: 3, teamName: "Team SHH" },
+      ],
+      jury: [
+        { name: "Jashwanth Sonti", role: "Jury, Market Mayhem" },
+        { name: "Siram Sankeerth", role: "Jury, Market Mayhem" },
+      ],
       poster: "/images/events/market-mayhem/poster.webp",
       posterAlt:
         "Market Mayhem poster: the event name in orange and black over a patterned background, with the 22 September 2026 date",
       startsAt: "2026-09-22T17:00:00+05:30",
       venue: "SIT Seminar Hall, JNTUH Kukatpally",
-      // TODO: poster image pending — the card falls back to a brand-styled block for now.
+      // The registration form stays recorded even though the event is over: the data layer
+      // computes "closed" from the date, so the page never offers a dead form.
       registration: {
         mode: "external",
         url: "https://forms.gle/gMHgbFhC4vqN8Guf7",
         label: "Register your team",
       },
+      gallerySlug: "market-mayhem",
+    },
+
+    /* --------------------------------------------------- 2026 Unveil */
+    {
+      slug: "unveil-2026",
+      title: "2026 Unveil",
+      shortDescription:
+        "The season opener: the full E-Cell event calendar revealed, with live performances.",
+      description: `A new season begins. **2026 Unveil** opened the year by putting the whole E-Cell calendar on the table at once — every competition, workshop and summit planned for the year ahead, revealed in one sitting.
+
+Live performances by **Raagavarsha** and **Elite Feet** ran alongside the reveal.`,
+      category: "other",
+      accent: "red",
+      poster: "/images/events/unveil-2026/poster.webp",
+      posterAlt:
+        "2026 Unveil poster: torn-paper collage of band and dance performances in greyscale, with the date 28.09.2026 and 5:00 PM on a dark panel",
+      startsAt: "2026-09-28T17:00:00+05:30",
+      venue: "SIT Building, JNTUH Kukatpally",
+      registration: { mode: "none", note: "Event completed" },
     },
 
     {

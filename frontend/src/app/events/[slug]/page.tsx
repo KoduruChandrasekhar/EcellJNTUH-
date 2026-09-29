@@ -12,6 +12,7 @@ import { WireTorus } from "@/components/brand/WireGlobe";
 import { DrawFrame } from "@/components/motion/DrawLine";
 import { Countdown } from "@/components/sections/Countdown";
 import { EventActions } from "@/components/sections/EventActions";
+import { EventPhotos } from "@/components/sections/EventPhotos";
 import { RegistrationSection } from "@/components/sections/RegistrationSection";
 import { Reveal } from "@/components/motion/Reveal";
 import { ScrollProgress } from "@/components/motion/Scroll";
@@ -20,11 +21,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { ButtonLink } from "@/components/ui/button";
 import { BreadcrumbSchema, EventSchema } from "@/components/site/StructuredData";
+import { categoryLabel } from "@/lib/labels";
 import type { EventParticipation, EventResult } from "@/content/schema";
 import {
   getAdjacentEvents,
   getAllEventSlugs,
   getEventBySlug,
+  getGalleryAlbum,
   getSiteConfig,
   getSubEvents,
 } from "@/lib/data";
@@ -67,11 +70,12 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
   // An unknown slug falls through to the branded 404.
   if (!event) notFound();
 
-  const [site, sessions, adjacent, parent] = await Promise.all([
+  const [site, sessions, adjacent, parent, album] = await Promise.all([
     getSiteConfig(),
     getSubEvents(event.slug),
     getAdjacentEvents(event.slug),
     event.parentSlug ? getEventBySlug(event.parentSlug) : Promise.resolve(undefined),
+    event.gallerySlug ? getGalleryAlbum(event.gallerySlug) : Promise.resolve(undefined),
   ]);
 
   const upcoming = !isPast(event);
@@ -116,7 +120,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
 
           <Reveal>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge tone="accent">{event.category.replace("-", " ")}</Badge>
+              <Badge tone="accent">{categoryLabel(event.category)}</Badge>
               {event.theme ? <Badge>{event.theme}</Badge> : null}
               {event.dateApproximate ? <Badge tone="neutral">Date to be confirmed</Badge> : null}
             </div>
@@ -175,7 +179,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
         </div>
       </section>
 
-      <div className="container-site section-y grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+      <div className="container-site section-y grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start">
         {/* ---- main column ---- */}
         <div className="flex flex-col gap-14">
           {event.poster ? (
@@ -243,7 +247,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
               <Reveal>
                 <SectionEyebrow>How it ran</SectionEyebrow>
               </Reveal>
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
+              <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
                 {event.rounds.map((round) => (
                   <Reveal key={round.name}>
                     <DrawFrame tone="accent" className="h-full">
@@ -310,6 +314,8 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
               <Podium results={event.results} />
             </section>
           ) : null}
+
+          {album ? <EventPhotos album={album} /> : null}
 
           {event.participation ? (
             <ParticipationSection participation={event.participation} />
@@ -404,7 +410,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
 
       {/* ---- prev / next ---- */}
       <nav aria-label="Other events" className="container-site pt-8 pb-(--spacing-section)">
-        <div className="border-line-soft grid gap-4 border-t pt-8 sm:grid-cols-2">
+        <div className="border-line-soft grid grid-cols-1 gap-4 border-t pt-8 sm:grid-cols-2">
           {adjacent.previous ? (
             <Link href={`/events/${adjacent.previous.slug}`} className="group">
               <p className="text-body-3 flex items-center gap-2 text-xs tracking-(--tracking-eyebrow) uppercase">
@@ -458,7 +464,7 @@ function PeopleSection({
       <Reveal>
         <SectionEyebrow>{title}</SectionEyebrow>
       </Reveal>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {people.map((person, i) => (
           <Reveal key={person.name} delay={i * 60}>
             <Card className="h-full p-5">

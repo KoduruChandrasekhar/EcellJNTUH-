@@ -114,6 +114,20 @@ export const about = parseContent(
           "The second ETHOS, themed Sustainable Infrastructure & Green Innovation: 120+ participants from 6+ colleges, and ten teams in the boardroom finale.",
         eventSlug: "ethos-2026",
       },
+      {
+        date: "2026-09-22T17:00:00+05:30",
+        title: "Market Mayhem",
+        description:
+          "A high-stakes debate on real Indian businesses, won by Team Balayya Mansion House.",
+        eventSlug: "market-mayhem",
+      },
+      {
+        date: "2026-09-28T17:00:00+05:30",
+        title: "2026 Unveil",
+        description:
+          "The season opener: the full year's event calendar revealed, with live performances.",
+        eventSlug: "unveil-2026",
+      },
     ],
   },
   "about.ts",

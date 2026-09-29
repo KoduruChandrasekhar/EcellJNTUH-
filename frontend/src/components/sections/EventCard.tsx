@@ -7,16 +7,8 @@ import { StatusBadge } from "./StatusBadge";
 import type { EventItem } from "@/content/schema";
 import { formatDate, getEventStatus } from "@/lib/dates";
 import { cn } from "@/lib/utils";
+import { categoryLabel } from "@/lib/labels";
 
-const categoryLabel: Record<EventItem["category"], string> = {
-  summit: "Summit",
-  workshop: "Workshop",
-  "speaker-session": "Speaker session",
-  competition: "Competition",
-  quiz: "Quiz",
-  recruitment: "Recruitment",
-  other: "Event",
-};
 
 /**
  * One event card, used on the Home page and the Events page — there is only ever one
@@ -59,7 +51,7 @@ export function EventCard({ event, className }: { event: EventItem; className?: 
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge>{categoryLabel[event.category]}</Badge>
+          <Badge>{categoryLabel(event.category)}</Badge>
           <StatusBadge event={event} initialStatus={status} />
         </div>
 

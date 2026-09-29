@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import type { EventCategory, EventItem } from "@/content/schema";
 import { isPast } from "@/lib/dates";
 import { cn } from "@/lib/utils";
+import { CATEGORY_LABELS } from "@/lib/labels";
 
 /**
  * Upcoming / Past tabs, category chips and a search box over the event grid.
@@ -22,15 +23,6 @@ import { cn } from "@/lib/utils";
  * anything happened. Filters need to feel instant, so the grid now swaps immediately and
  * the new cards fade in via CSS, which costs nothing and never delays the click.
  */
-const CATEGORY_LABELS: Record<EventCategory, string> = {
-  summit: "Summit",
-  workshop: "Workshop",
-  "speaker-session": "Speaker session",
-  competition: "Competition",
-  quiz: "Quiz",
-  recruitment: "Recruitment",
-  other: "Other",
-};
 
 type Tab = "upcoming" | "past";
 
@@ -159,7 +151,7 @@ export function EventsBrowser({ events }: { events: EventItem[] }) {
 
       {/* ---- grid ---- */}
       {filtered.length > 0 ? (
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((event, i) => (
             // Keyed by slug so React reuses the DOM node for a card that survives the
             // filter change, and only genuinely new cards animate in.

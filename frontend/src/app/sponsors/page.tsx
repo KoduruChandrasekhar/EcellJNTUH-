@@ -85,10 +85,11 @@ export default async function SponsorsPage() {
               </Reveal>
             ))}
           </dl>
-          {/* Honesty beats a bigger number: unconfirmed figures are labelled as such. */}
-          <p className="mt-8 text-xs opacity-70">
-            Figures marked ~ are estimates pending confirmation by the club. Ask us for the verified
-            numbers before committing to anything.
+          {/* Attendance counts visits, not unique people. Kept short, but kept: a sponsor
+              who works that out later stops trusting every other number on the page. */}
+          <p className="mt-8 max-w-2xl text-xs opacity-70">
+            Attendance counts visits, not unique students. Figures marked ~ are approximate —
+            ask us for the full breakdown.
           </p>
         </div>
       </section>
@@ -127,7 +128,7 @@ export default async function SponsorsPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
             {sponsors.tiers.map((tier, i) => (
               <Reveal key={tier.id} delay={i * 70}>
                 <Tilt max={4}>
@@ -162,7 +163,7 @@ export default async function SponsorsPage() {
         <Reveal>
           <SectionEyebrow>Every package includes</SectionEyebrow>
         </Reveal>
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {sponsors.whatYouGet.map((item, i) => (
             <Reveal as="li" key={item} delay={i * 50}>
               <div className="border-line-soft bg-surface-3 flex items-start gap-3 rounded-(--radius-card) border p-4">

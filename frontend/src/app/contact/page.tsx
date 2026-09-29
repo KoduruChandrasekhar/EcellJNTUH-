@@ -45,7 +45,7 @@ export default async function ContactPage() {
         <SplitHeadline as="h1" solid="Get in" outline="Touch" accent="blue" className="mt-3" />
       </Reveal>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr]">
+      <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.1fr]">
         <div className="flex flex-col gap-6">
           <Reveal>
             <Card className="p-6">

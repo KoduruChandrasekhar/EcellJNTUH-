@@ -44,7 +44,7 @@ export default async function InitiativesPage() {
         ))}
       </div>
 
-      <div className="mt-14 grid gap-6 md:grid-cols-3">
+      <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
         {initiatives.map((initiative, i) => (
           <Reveal key={initiative.slug} delay={i * 80}>
             <Tilt>

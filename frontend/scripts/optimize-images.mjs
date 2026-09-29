@@ -4,9 +4,9 @@
  *
  * Folder in assets-source decides the target width:
  *
- *   assets-source/events/foo.jpg   ->  public/images/events/foo.webp    (1200px)
- *   assets-source/team/bar.png     ->  public/images/team/bar.webp      ( 600px)
- *   assets-source/gallery/baz.jpg  ->  public/images/gallery/baz.webp   (1600px)
+ *   ../assets-source/events/foo.jpg  ->  public/images/events/foo.webp   (1200px)
+ *   ../assets-source/team/bar.png    ->  public/images/team/bar.webp     ( 600px)
+ *   ../assets-source/gallery/baz.jpg ->  public/images/gallery/baz.webp  (1600px)
  *
  * Usage:  pnpm optimize-images
  */
@@ -14,7 +14,9 @@ import { readdir, mkdir, stat } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const SOURCE = "assets-source";
+// assets-source lives at the repo root, one level above frontend/ — the originals are
+// not part of the deployed app and Vercel never needs to see them.
+const SOURCE = path.join("..", "assets-source");
 const OUT = path.join("public", "images");
 
 /** Max width per folder. Anything not listed falls back to 1200. */

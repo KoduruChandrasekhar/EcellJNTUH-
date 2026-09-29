@@ -241,7 +241,7 @@ export default function StyleguidePage() {
       </Section>
 
       <Section title="Cards">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <Card className="p-6">
             <h3 className="font-condensed text-(length:--text-heading) uppercase">Static card</h3>
             <p className="text-body-2 mt-2 text-sm">
@@ -262,7 +262,7 @@ export default function StyleguidePage() {
       </Section>
 
       <Section title="Poster motifs">
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
           <Motif label="Parallelogram row — section divider">
             <ParallelogramRow className="text-body" />
           </Motif>
@@ -297,7 +297,7 @@ export default function StyleguidePage() {
       </Section>
 
       <Section title="Panels and frames">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <DottedFrame>
             <h3 className="font-condensed text-(length:--text-heading) uppercase">Dotted frame</h3>
             <p className="text-body-2 mt-2 text-sm">

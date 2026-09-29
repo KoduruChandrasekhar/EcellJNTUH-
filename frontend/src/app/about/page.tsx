@@ -67,7 +67,7 @@ export default async function AboutPage() {
 
       {/* ---- vision / mission ---- */}
       <section className="container-site section-y">
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Reveal>
             <Card className="h-full p-7">
               <SectionEyebrow>Vision</SectionEyebrow>
@@ -88,7 +88,7 @@ export default async function AboutPage() {
               <p className="font-condensed text-(length:--text-heading) tracking-(--tracking-wide-label) uppercase">
                 What we do
               </p>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {about.objectives.map((objective) => (
                   <li key={objective} className="flex items-start gap-3 text-sm leading-relaxed">
                     <ChevronTick tone="yellow" size={15} className="mt-1" />
