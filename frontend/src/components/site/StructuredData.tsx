@@ -33,6 +33,7 @@ export function OrganizationSchema({ site }: { site: Site }) {
         url: site.url,
         logo: new URL("/images/brand/logo.png", site.url).href,
         slogan: site.motto,
+        ...(site.email ? { email: site.email } : {}),
         address: {
           "@type": "PostalAddress",
           streetAddress: "JNTUH UCESTH, Kukatpally",

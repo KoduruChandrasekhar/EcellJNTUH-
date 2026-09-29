@@ -19,7 +19,7 @@ export const site = parseContent(
     heroIntro: "Ideas get argued, defended and torn apart here — then built anyway.",
     // TODO: replace with the real domain once it is registered.
     url: "https://ecelljntuh.vercel.app",
-    // TODO: the club's official email is not confirmed. Left unset so no fake mailto ships.
+    email: "ecell.jntuh@gmail.com",
     address: "JNTUH UCESTH, Kukatpally, Hyderabad, Telangana 500085",
     mapUrl: "https://maps.google.com/?q=JNTUH+College+of+Engineering+Hyderabad+Kukatpally",
     mapEmbedUrl:
