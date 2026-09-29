@@ -55,10 +55,15 @@ export default async function HomePage() {
   const photos = albums.flatMap((album) => album.images).slice(0, 8);
   const withPosters = past.filter((event) => event.poster);
 
+
   return (
     <>
       {/* ------------------------------------------------------------- hero */}
-      <section className="-mt-20 flex min-h-dvh items-center md:-mt-24">
+      {/* overflow-x-clip: the hero's decorative rings rotate, and a rotated square has a
+          bounding box ~1.41x its own width, which pushed the document sideways between
+          roughly 1000px and 1280px. `clip` rather than `hidden` so no scroll container is
+          created and sticky positioning inside still works. */}
+      <section className="-mt-20 flex min-h-dvh items-center overflow-x-clip md:-mt-24">
         <div className="container-site grid w-full gap-12 pt-28 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-24">
           <div>
             {featured && featuredIsAhead ? (
@@ -441,23 +446,23 @@ export default async function HomePage() {
           <SectionEyebrow>Follow along</SectionEyebrow>
           <SplitHeadline solid="See it" outline="As it happens" size="title" className="mt-3" />
           <p className="text-body-2 mt-5 max-w-lg">
-            Every event lands on Instagram first. No embeds here — just our own posters, and a link
-            straight to the feed.
+            Every event lands on Instagram first. These are our own posters, served from our own
+            images — no embed script, so nothing third-party loads in your browser.
           </p>
         </Reveal>
 
         {/* A curated grid from our own content rather than a third-party embed script,
             which would mean shipping someone else's JavaScript to every visitor. */}
-        <div className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {withPosters.slice(0, 4).map((event, i) => (
-            <Reveal key={event.slug} delay={i * 70}>
+        <ul className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {withPosters.slice(0, 8).map((event, i) => (
+            <Reveal as="li" key={event.slug} delay={i * 70}>
               <Tilt max={6}>
                 <Link
                   href={`/events/${event.slug}`}
                   className="border-line block aspect-square overflow-hidden rounded-(--radius-card) border-[1.5px]"
                 >
                   <Image
-                    src={event.poster ?? ""}
+                    src={event.poster!}
                     alt={event.posterAlt ?? event.title}
                     width={600}
                     height={600}
@@ -468,7 +473,7 @@ export default async function HomePage() {
               </Tilt>
             </Reveal>
           ))}
-        </div>
+        </ul>
 
         <div className="mt-8 flex flex-wrap gap-3">
           {site.socials.instagram ? (

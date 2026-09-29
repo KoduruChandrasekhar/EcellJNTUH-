@@ -60,7 +60,7 @@ export const gallery = parseContent(
       slug: "ethos-2025",
       title: "ETHOS 2025 — Dilemma Decoded",
       eventSlug: "ethos-2025",
-      date: "2025-02-01T10:00:00+05:30",
+      date: "2025-04-12T10:00:00+05:30",
       cover: "/images/events/ethos-2025/speaker.webp",
       images: [
         {
@@ -81,6 +81,12 @@ export const gallery = parseContent(
           width: 768,
           height: 597,
         },
+        {
+          src: "/images/events/ethos-2025/group.webp",
+          alt: "Participants, speakers and organisers of ETHOS 2025 gathered on the steps beneath the JNTUH lettering at the end of the day",
+          width: 797,
+          height: 251,
+        },
       ],
     },
     {
@@ -95,6 +101,27 @@ export const gallery = parseContent(
           alt: "A wider view of the Pitch Perfect 2.0 group on stage, with the auditorium screens behind them",
           width: 1200,
           height: 900,
+        },
+        {
+          src: "/images/events/pitch-perfect-2/group-stage.webp",
+          alt: "Participants and organisers of Pitch Perfect 2.0 grouped on the seminar hall stage after the final pitches",
+          width: 1200,
+          height: 681,
+        },
+      ],
+    },
+    {
+      slug: "trivial-pursuits",
+      title: "Trivial Pursuits",
+      eventSlug: "trivial-pursuits",
+      date: "2025-09-19T16:30:00+05:30",
+      cover: "/images/events/trivial-pursuits/group.webp",
+      images: [
+        {
+          src: "/images/events/trivial-pursuits/group.webp",
+          alt: "The full room of Trivial Pursuits participants gathered in front of the projected event title at the end of the quiz",
+          width: 795,
+          height: 322,
         },
       ],
     },

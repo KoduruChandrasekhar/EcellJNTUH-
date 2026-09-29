@@ -16,7 +16,8 @@ export const site = parseContent(
     motto: "Innovate. Connect. Elevate.",
     description:
       "The Entrepreneurship Cell of JNTU Hyderabad — competitions, workshops and speaker sessions for students building something of their own.",
-    heroIntro: "Ideas get argued, defended and torn apart here — then built anyway.",
+    heroIntro:
+      "A platform for students to explore ideas, build skills, and create what's next.",
     // TODO: replace with the real domain once it is registered.
     url: "https://ecelljntuh.vercel.app",
     email: "ecell.jntuh@gmail.com",

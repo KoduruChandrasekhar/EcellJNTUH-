@@ -77,8 +77,8 @@ export const team = parseContent(
       order: 5,
     },
     {
-      id: "srija-janamanchi",
-      name: "Srija Janamanchi",
+      id: "srija-janamachari",
+      name: "Srija Janamachari",
       position: "Event Planning and Ideation",
       category: "lead",
       term: "2026-27",
