@@ -24,9 +24,7 @@ export async function TeamDirectory({ term }: { term: string }) {
       <Reveal>
         <SectionEyebrow>Who we are</SectionEyebrow>
         <Headline as="h1" solid="The" outline="Team" className="mt-3" />
-        <p className="text-body-2 mt-6 max-w-xl text-balance">
-          The committee behind E-Cell JNTUH.
-        </p>
+        <p className="text-body-2 mt-6 max-w-xl text-balance">The committee behind E-Cell JNTUH.</p>
       </Reveal>
 
       {terms.length > 1 ? (

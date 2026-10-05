@@ -17,6 +17,7 @@ import { Typewriter } from "@/components/motion/Typewriter";
 import { Countdown } from "@/components/sections/Countdown";
 import { EventCard } from "@/components/sections/EventCard";
 import { HeroComposition } from "@/components/sections/HeroComposition";
+import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { NextEventChip } from "@/components/sections/NextEventChip";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -26,6 +27,7 @@ import {
   getGallery,
   getInitiatives,
   getPartners,
+  getInstagramFeed,
   getPastEvents,
   getSiteConfig,
   getStats,
@@ -36,7 +38,7 @@ import { isPast } from "@/lib/dates";
 
 export default async function HomePage() {
   // Every one of these is a data-layer call — the page reads no content file directly.
-  const [site, stats, featured, flagship, upcoming, past, initiatives, partners, albums] =
+  const [site, stats, featured, flagship, upcoming, past, initiatives, partners, albums, feed] =
     await Promise.all([
       getSiteConfig(),
       getStats(),
@@ -47,6 +49,7 @@ export default async function HomePage() {
       getInitiatives(),
       getPartners(),
       getGallery(),
+      getInstagramFeed(4),
     ]);
 
   const sessions = flagship ? await getSubEvents(flagship.slug) : [];
@@ -54,7 +57,6 @@ export default async function HomePage() {
   const flagshipIsAhead = flagship ? !isPast(flagship) : false;
   const photos = albums.flatMap((album) => album.images).slice(0, 8);
   const withPosters = past.filter((event) => event.poster);
-
 
   return (
     <>
@@ -64,7 +66,7 @@ export default async function HomePage() {
           roughly 1000px and 1280px. `clip` rather than `hidden` so no scroll container is
           created and sticky positioning inside still works. */}
       <section className="-mt-20 flex min-h-dvh items-center overflow-x-clip md:-mt-24">
-        <div className="container-site grid grid-cols-1 w-full gap-12 pt-28 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-24">
+        <div className="container-site grid w-full grid-cols-1 gap-12 pt-28 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-24">
           <div>
             {featured && featuredIsAhead ? (
               <div className="mb-6">
@@ -443,34 +445,42 @@ export default async function HomePage() {
           <SectionEyebrow>Follow along</SectionEyebrow>
           <SplitHeadline solid="See it" outline="As it happens" size="title" className="mt-3" />
           <p className="text-body-2 mt-5 max-w-lg">
-            Every event lands on Instagram first. These are our own posters, served from our own
-            images — no embed script, so nothing third-party loads in your browser.
+            {feed.posts.length > 0
+              ? "Straight from @ecell_jntuh — pulled in automatically, served from our own images, with no embed script loading in your browser."
+              : "Every event lands on Instagram first. These are our own posters, served from our own images — no embed script, so nothing third-party loads in your browser."}
           </p>
         </Reveal>
 
-        {/* A curated grid from our own content rather than a third-party embed script,
-            which would mean shipping someone else's JavaScript to every visitor. */}
-        <ul className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {withPosters.slice(0, 8).map((event, i) => (
-            <Reveal as="li" key={event.slug} delay={i * 70}>
-              <Tilt max={6}>
-                <Link
-                  href={`/events/${event.slug}`}
-                  className="border-line block aspect-square overflow-hidden rounded-(--radius-card) border-[1.5px]"
-                >
-                  <Image
-                    src={event.poster!}
-                    alt={event.posterAlt ?? event.title}
-                    width={600}
-                    height={600}
-                    sizes="(min-width: 1024px) 280px, 45vw"
-                    className="h-full w-full object-cover"
-                  />
-                </Link>
-              </Tilt>
-            </Reveal>
-          ))}
-        </ul>
+        {/* The live feed when it has synced, event posters when it hasn't. Empty is a real
+            state, not a failure: the section has to look finished before the Instagram
+            credentials exist, and has to survive the API going down afterwards. */}
+        {feed.posts.length > 0 ? (
+          <Reveal>
+            <InstagramFeed posts={feed.posts} />
+          </Reveal>
+        ) : (
+          <ul className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {withPosters.slice(0, 4).map((event, i) => (
+              <Reveal as="li" key={event.slug} delay={i * 70}>
+                <Tilt max={6}>
+                  <Link
+                    href={`/events/${event.slug}`}
+                    className="border-line block aspect-square overflow-hidden rounded-(--radius-card) border-[1.5px]"
+                  >
+                    <Image
+                      src={event.poster!}
+                      alt={event.posterAlt ?? event.title}
+                      width={600}
+                      height={600}
+                      sizes="(min-width: 1024px) 280px, 45vw"
+                      className="h-full w-full object-cover"
+                    />
+                  </Link>
+                </Tilt>
+              </Reveal>
+            ))}
+          </ul>
+        )}
 
         <div className="mt-8 flex flex-wrap gap-3">
           {site.socials.instagram ? (

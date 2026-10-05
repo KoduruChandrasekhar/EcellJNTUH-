@@ -10,6 +10,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# The Next.js app lives in frontend/, not at the repo root, so every `run` step needs to
+# start there. Without this the whole workflow fails on "no package.json".
+defaults:
+  run:
+    working-directory: frontend
+
 jobs:
   verify:
     runs-on: ubuntu-latest

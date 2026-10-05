@@ -15,7 +15,8 @@
     "measure": "node scripts/measure-js.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
     "extract-mark": "node scripts/extract-mark.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "sync-instagram": "node scripts/sync-instagram.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",

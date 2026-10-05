@@ -1,0 +1,21 @@
+# Normalise line endings.
+#
+# Without this, core.autocrlf=true on Windows makes `pnpm format` mark ~30 files as
+# modified with no actual content change, which makes `git status` useless for seeing what
+# you really touched. Storing LF in the repository and checking out LF keeps the two in
+# step on every machine.
+* text=auto eol=lf
+
+# Binaries must never be touched.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.pdf  binary
+*.docx binary
+*.zip  binary
+*.mp4  binary

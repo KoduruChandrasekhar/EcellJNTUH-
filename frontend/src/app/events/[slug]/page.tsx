@@ -59,7 +59,11 @@ export async function generateMetadata({ params }: PageProps<"/events/[slug]">):
       // landscape card with the event's title, date and venue on it. A poster is portrait,
       // and social platforms centre-crop it into an unreadable sliver.
     },
-    twitter: { card: "summary_large_image", title: event.title, description: event.shortDescription },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description: event.shortDescription,
+    },
   };
 }
 
@@ -149,7 +153,9 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
                 <dd>
                   {event.dateApproximate
                     ? `${formatMonthYear(event.startsAt)} (to be confirmed)`
-                    : formatDateTime(event.startsAt)}
+                    : event.timeTbc
+                      ? formatDate(event.startsAt)
+                      : formatDateTime(event.startsAt)}
                 </dd>
               </div>
               <div className="flex items-center gap-2">
@@ -375,7 +381,9 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
                   {formatDate(event.startsAt)}
                 </p>
                 <p className="text-body-2 mt-1 text-sm">
-                  {formatTimeRange(event.startsAt, event.endsAt)}
+                  {event.timeTbc
+                    ? "Time to be announced"
+                    : formatTimeRange(event.startsAt, event.endsAt)}
                 </p>
               </div>
             </Reveal>

@@ -280,6 +280,82 @@ The day closed with a live performance by **Ragavarsha**.`,
       gallerySlug: "market-mayhem",
     },
 
+    /* ------------------------------------------------ Grand Bid Prix */
+    {
+      slug: "grand-bid-prix",
+      title: "Grand Bid Prix",
+      shortDescription:
+        "Spend smart, race faster: a live auction where you build a race car on a fixed budget.",
+      description: `Think you can build the fastest car? What if winning wasn't about having the most money, but knowing where to spend it?
+
+Step into the shoes of a **racing team manager**. You start with **$10,000 of virtual capital** and bid against every other team in a live auction for the parts that make a car quick — then put your decisions to the test in a simulated race.
+
+The catch is the one every founder knows: **you can't buy everything.** Your money, your strategy, your race.
+
+Run in collaboration with **Hexawatts**.`,
+      category: "competition",
+      tagline: "Spend smart. Race faster.",
+      theme: "Where racing meets strategy, investment and smart financial decisions",
+      accent: "red",
+      // Solo entries are allowed: the registration form accepts a team size of 1 and pairs
+      // you up at the venue. The poster's "minimum of 3" is the target, not a gate.
+      teamSize: { min: 1, max: 5 },
+      eligibility: "Open to all students. Enter alone and you'll be paired into a team at the venue.",
+      rounds: [
+        {
+          name: "The auction",
+          mode: "on-campus",
+          description:
+            "Four live auctions for the parts that decide a car's pace. Manage the budget, take calculated risks, and build something that can actually win.",
+        },
+        {
+          name: "The race",
+          mode: "on-campus",
+          description:
+            "Your build goes into a simulated race, where every bid you made either pays off or doesn't.",
+        },
+        {
+          name: "Rapid-fire final",
+          mode: "on-campus",
+          description: "The top teams face a rapid-fire quiz to settle it.",
+        },
+      ],
+      highlights: [
+        {
+          title: "$10,000 in virtual capital",
+          description:
+            "A fixed budget, and never quite enough for everything you want. Spending it well is the whole competition.",
+        },
+        {
+          title: "Four live auctions",
+          description:
+            // The registration form lists Engine, Exhaust, Gearbox and Aerodynamics; the
+            // poster's fourth component reads "Tyres".
+            // TODO: confirm which four components are actually auctioned.
+            "Engine, exhaust, gearbox and aerodynamics, bid for against every other team in the room.",
+        },
+        {
+          title: "Teams of three to five",
+          description:
+            "Come with your own strategists, or turn up alone and get paired at the venue.",
+        },
+      ],
+      partners: ["hexawatts"],
+      // TODO: no poster shipped. The Instagram poster carries a large QR code, which
+      // CLAUDE.md bans from the repo, and it sits in the middle of the artwork so it
+      // can't be cropped out without destroying the layout. The card falls back to the
+      // brand block until a QR-free version exists.
+      startsAt: "2026-10-09T17:00:00+05:30",
+      // TODO: neither the poster nor the registration form gives a start time or venue.
+      timeTbc: true,
+      venue: "To be announced",
+      registration: {
+        mode: "external",
+        url: "https://forms.gle/iKEtwaeo5Nqbm7N58",
+        label: "Assemble your team",
+      },
+    },
+
     /* --------------------------------------------------- 2026 Unveil */
     {
       slug: "unveil-2026",
@@ -339,8 +415,7 @@ By the end, everyone in the room had defended an idea they had first heard an ho
         },
         {
           title: "Problem, solution, market",
-          description:
-            "The structure a real pitch needs, assembled from scratch in minutes.",
+          description: "The structure a real pitch needs, assembled from scratch in minutes.",
         },
         {
           title: "Enacted advertisements",

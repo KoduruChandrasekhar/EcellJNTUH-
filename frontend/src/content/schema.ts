@@ -182,6 +182,13 @@ export const eventSchema = z
      * the UI shows only the month and flags it, rather than presenting a guess as fact.
      */
     dateApproximate: z.boolean().default(false),
+    /**
+     * The day is confirmed but the start time isn't — the usual state for an event the
+     * moment it's announced. `startsAt` still needs a time to be a valid instant, so the
+     * UI suppresses it rather than printing a number nobody chose. Without this the page
+     * would quietly present a placeholder time as fact.
+     */
+    timeTbc: z.boolean().default(false),
     venue: z.string().min(1),
     mapUrl: httpsUrl.optional(),
     partners: z.array(z.string()).optional(),
@@ -221,6 +228,32 @@ export const teamMemberSchema = z.object({
   photo: publicPath.optional(),
   linkedin: httpsUrl.optional(),
   order: z.number().int().nonnegative(),
+});
+
+/* ------------------------------------------------------------ instagram */
+
+/**
+ * One post mirrored from the club's Instagram.
+ *
+ * `image` is a path under /public, not an Instagram URL, and that is deliberate: Instagram's
+ * CDN links are signed and expire within days, so a stored URL would turn into a broken
+ * image. The sync script downloads each one, optimises it through the same sharp pipeline
+ * as every other image on the site, and records the local path here.
+ *
+ * Captions are kept but are not required — the feed renders images only by default, and the
+ * caption is used for alt text, which is the one place it genuinely has to exist.
+ */
+export const instagramPostSchema = z.object({
+  id: z.string().min(1),
+  permalink: httpsUrl,
+  /** The club's own caption, trimmed. Used for alt text and the accessible link name. */
+  caption: z.string().optional(),
+  /** CAROUSEL_ALBUM and VIDEO both render a single still; the badge tells them apart. */
+  mediaType: z.enum(["IMAGE", "VIDEO", "CAROUSEL_ALBUM"]),
+  image: publicPath,
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  postedAt: isoDateTime,
 });
 
 /* ------------------------------------------------------- initiatives etc. */
@@ -340,6 +373,7 @@ export type Registration = z.infer<typeof registrationSchema>;
 export type TeamMember = z.infer<typeof teamMemberSchema>;
 export type TeamCategory = z.infer<typeof teamCategorySchema>;
 export type Initiative = z.infer<typeof initiativeSchema>;
+export type InstagramPost = z.infer<typeof instagramPostSchema>;
 export type GalleryAlbum = z.infer<typeof galleryAlbumSchema>;
 export type Partner = z.infer<typeof partnerSchema>;
 export type About = z.infer<typeof aboutSchema>;

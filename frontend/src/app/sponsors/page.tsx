@@ -88,8 +88,8 @@ export default async function SponsorsPage() {
           {/* Attendance counts visits, not unique people. Kept short, but kept: a sponsor
               who works that out later stops trusting every other number on the page. */}
           <p className="mt-8 max-w-2xl text-xs opacity-70">
-            Attendance counts visits, not unique students. Figures marked ~ are approximate —
-            ask us for the full breakdown.
+            Attendance counts visits, not unique students. Figures marked ~ are approximate — ask us
+            for the full breakdown.
           </p>
         </div>
       </section>

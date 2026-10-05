@@ -14,13 +14,7 @@ export default async function Image() {
   const site = await getSiteConfig();
 
   return new ImageResponse(
-    (
-      <OgCard
-        eyebrow="Entrepreneurship Cell"
-        title="JNTU Hyderabad"
-        meta={site.heroIntro}
-      />
-    ),
+    <OgCard eyebrow="Entrepreneurship Cell" title="JNTU Hyderabad" meta={site.heroIntro} />,
     size,
   );
 }

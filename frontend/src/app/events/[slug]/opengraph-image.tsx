@@ -27,18 +27,14 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   // An unconfirmed date shows as "August 2026" rather than inventing a day — the same
   // rule the event page itself follows.
-  const date = event.dateApproximate
-    ? formatMonthYear(event.startsAt)
-    : formatDate(event.startsAt);
+  const date = event.dateApproximate ? formatMonthYear(event.startsAt) : formatDate(event.startsAt);
 
   return new ImageResponse(
-    (
-      <OgCard
-        eyebrow={categoryLabel(event.category)}
-        title={event.title}
-        meta={event.venue ? `${date} · ${event.venue}` : date}
-      />
-    ),
+    <OgCard
+      eyebrow={categoryLabel(event.category)}
+      title={event.title}
+      meta={event.venue ? `${date} · ${event.venue}` : date}
+    />,
     size,
   );
 }

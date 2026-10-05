@@ -1,0 +1,45 @@
+name: Refresh Instagram token
+
+# Instagram's long-lived tokens last 60 days and can be refreshed for another 60 — but
+# Meta is explicit that "tokens that have not been refreshed in 60 days will expire and can
+# no longer be refreshed". There is no recovery from that: it means going back to whoever
+# owns the account and generating a new one by hand.
+#
+# So this runs fortnightly rather than monthly. Three consecutive failures still leave a
+# fortnight of margin, and a silent failure is the whole risk worth designing against.
+on:
+  schedule:
+    - cron: "0 3 */14 * *"
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exchange the token for a fresh 60 days
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          # A fine-grained PAT with Secrets: read/write. GITHUB_TOKEN cannot update secrets.
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ]; then
+            echo "No token set yet — nothing to refresh."
+            exit 0
+          fi
+
+          response=$(curl -fsS "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=$IG_ACCESS_TOKEN") || {
+            echo "::error::Refresh call failed. If this keeps failing the token will expire permanently — regenerate it from the Meta app dashboard."
+            exit 1
+          }
+
+          new_token=$(echo "$response" | sed -n 's/.*"access_token"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+          expires=$(echo "$response" | sed -n 's/.*"expires_in"[[:space:]]*:[[:space:]]*\([0-9]*\).*/\1/p')
+
+          if [ -z "$new_token" ]; then
+            echo "::error::No access_token in the response. Not overwriting the working one."
+            exit 1
+          fi
+
+          # Never echo the token itself — workflow logs are public on a public repository.
+          echo "Refreshed. Valid for about $(( expires / 86400 )) more days."
+          gh secret set IG_ACCESS_TOKEN --body "$new_token" --repo "$GITHUB_REPOSITORY"

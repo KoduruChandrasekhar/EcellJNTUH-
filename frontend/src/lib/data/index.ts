@@ -2,6 +2,7 @@ import { about } from "@/content/about";
 import { events } from "@/content/events";
 import { gallery } from "@/content/gallery";
 import { initiatives } from "@/content/initiatives";
+import { instagramPosts, instagramSyncedAt } from "@/content/instagram";
 import { join } from "@/content/join";
 import { partners } from "@/content/partners";
 import { site } from "@/content/site";
@@ -61,7 +62,9 @@ function derivedTotals() {
     colleges: Math.max(0, ...reported.map((event) => event.participation?.colleges ?? 0)),
     // Speakers and jurors are named people; the same person on two panels counts once.
     peopleHosted: new Set(
-      events.flatMap((event) => [...(event.speakers ?? []), ...(event.jury ?? [])]).map((p) => p.name),
+      events
+        .flatMap((event) => [...(event.speakers ?? []), ...(event.jury ?? [])])
+        .map((p) => p.name),
     ).size,
   };
 }
@@ -213,6 +216,21 @@ export async function getGallery() {
 
 export async function getGalleryAlbum(slug: string) {
   return gallery.find((album) => album.slug === slug);
+}
+
+/**
+ * Instagram posts, newest first.
+ *
+ * Returns an empty array until the first sync runs, which is a supported state rather than
+ * an error — every caller is expected to have a fallback. `syncedAt` lets a page say how
+ * fresh the feed is instead of silently showing stale posts.
+ */
+export async function getInstagramFeed(limit?: number) {
+  const ordered = [...instagramPosts].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
+  return {
+    posts: limit ? ordered.slice(0, limit) : ordered,
+    syncedAt: instagramSyncedAt,
+  };
 }
 
 export async function getPartners() {

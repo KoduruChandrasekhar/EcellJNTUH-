@@ -9,7 +9,6 @@ import { formatDate, getEventStatus } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { categoryLabel } from "@/lib/labels";
 
-
 /**
  * One event card, used on the Home page and the Events page — there is only ever one
  * EventCard in the codebase.

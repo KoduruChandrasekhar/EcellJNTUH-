@@ -21,6 +21,12 @@ export const partners = parseContent(
       order: 1,
     },
     {
+      id: "hexawatts",
+      name: "Hexawatts",
+      url: "https://www.instagram.com/hexawatts/",
+      order: 3,
+    },
+    {
       id: "jntuh-alumni-affairs",
       name: "JNTUH Directorate of Alumni Affairs",
       order: 2,
