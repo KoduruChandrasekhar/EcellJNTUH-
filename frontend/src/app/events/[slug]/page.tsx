@@ -231,7 +231,7 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
           {event.highlights?.length ? (
             <section>
               <Reveal>
-                <SectionEyebrow>What to expect</SectionEyebrow>
+                <SectionEyebrow>{upcoming ? "What to expect" : "Highlights"}</SectionEyebrow>
               </Reveal>
               <div className="mt-6 flex flex-col gap-4">
                 {event.highlights.map((highlight, i) => (
@@ -251,7 +251,9 @@ export default async function EventPage({ params }: PageProps<"/events/[slug]">)
           {event.rounds?.length ? (
             <section>
               <Reveal>
-                <SectionEyebrow>How it ran</SectionEyebrow>
+                {/* Tense follows the event: the same block is the rules beforehand
+                    and the account of what happened afterwards. */}
+                <SectionEyebrow>{upcoming ? "How it works" : "How it ran"}</SectionEyebrow>
               </Reveal>
               <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
                 {event.rounds.map((round) => (

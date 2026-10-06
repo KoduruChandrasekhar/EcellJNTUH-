@@ -300,7 +300,8 @@ Run in collaboration with **Hexawatts**.`,
       // Solo entries are allowed: the registration form accepts a team size of 1 and pairs
       // you up at the venue. The poster's "minimum of 3" is the target, not a gate.
       teamSize: { min: 1, max: 5 },
-      eligibility: "Open to all students. Enter alone and you'll be paired into a team at the venue.",
+      eligibility:
+        "Open to all students. Enter alone and you'll be paired into a team at the venue.",
       rounds: [
         {
           name: "The auction",
@@ -341,10 +342,13 @@ Run in collaboration with **Hexawatts**.`,
         },
       ],
       partners: ["hexawatts"],
-      // TODO: no poster shipped. The Instagram poster carries a large QR code, which
-      // CLAUDE.md bans from the repo, and it sits in the middle of the artwork so it
-      // can't be cropped out without destroying the layout. The card falls back to the
-      // brand block until a QR-free version exists.
+      // The poster as posted carries a "SCAN TO REGISTER" QR code, which CLAUDE.md bans
+      // from the repo. It sat inside a rounded cream panel, so the panel's interior was
+      // blanked with its own background colour — the artwork is otherwise untouched, and
+      // the registration link is a real button on this page instead.
+      poster: "/images/events/grand-bid-prix/poster.webp",
+      posterAlt:
+        "Grand Bid Prix poster: the title in red and black over a racing-track swoosh and a Formula car, with the 9 October date and the four auction components listed beneath",
       startsAt: "2026-10-09T17:00:00+05:30",
       // TODO: neither the poster nor the registration form gives a start time or venue.
       timeTbc: true,
