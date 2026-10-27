@@ -128,6 +128,13 @@ export const about = parseContent(
           "The season opener: the full year's event calendar revealed, with live performances.",
         eventSlug: "unveil-2026",
       },
+      {
+        date: "2026-10-09T16:30:00+05:30",
+        title: "Grand Bid Prix",
+        description:
+          "An auction-and-racing strategy competition run with Hexawatts, won by Team Janata Garage.",
+        eventSlug: "grand-bid-prix",
+      },
     ],
   },
   "about.ts",

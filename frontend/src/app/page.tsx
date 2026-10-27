@@ -16,6 +16,7 @@ import { SplitHeadline } from "@/components/motion/SplitHeadline";
 import { Typewriter } from "@/components/motion/Typewriter";
 import { Countdown } from "@/components/sections/Countdown";
 import { EventCard } from "@/components/sections/EventCard";
+import { EventRecap } from "@/components/sections/EventRecap";
 import { HeroComposition } from "@/components/sections/HeroComposition";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { NextEventChip } from "@/components/sections/NextEventChip";
@@ -29,6 +30,7 @@ import {
   getPartners,
   getInstagramFeed,
   getPastEvents,
+  getRecentRecaps,
   getSiteConfig,
   getStats,
   getSubEvents,
@@ -38,19 +40,31 @@ import { isPast } from "@/lib/dates";
 
 export default async function HomePage() {
   // Every one of these is a data-layer call — the page reads no content file directly.
-  const [site, stats, featured, flagship, upcoming, past, initiatives, partners, albums, feed] =
-    await Promise.all([
-      getSiteConfig(),
-      getStats(),
-      getFeaturedEvent(),
-      getFlagshipEvent(),
-      getUpcomingEvents(3),
-      getPastEvents(6),
-      getInitiatives(),
-      getPartners(),
-      getGallery(),
-      getInstagramFeed(4),
-    ]);
+  const [
+    site,
+    stats,
+    featured,
+    flagship,
+    upcoming,
+    past,
+    initiatives,
+    partners,
+    albums,
+    feed,
+    recaps,
+  ] = await Promise.all([
+    getSiteConfig(),
+    getStats(),
+    getFeaturedEvent(),
+    getFlagshipEvent(),
+    getUpcomingEvents(3),
+    getPastEvents(6),
+    getInitiatives(),
+    getPartners(),
+    getGallery(),
+    getInstagramFeed(4),
+    getRecentRecaps(2),
+  ]);
 
   const sessions = flagship ? await getSubEvents(flagship.slug) : [];
   const featuredIsAhead = featured ? !isPast(featured) : false;
@@ -296,6 +310,18 @@ export default async function HomePage() {
           </Reveal>
         )}
       </section>
+
+      {/* ---------------------------------------------------------- recap */}
+      {recaps.length > 0 ? (
+        <section className="container-site section-y">
+          <Reveal>
+            <SectionEyebrow>Just happened</SectionEyebrow>
+            <SplitHeadline solid="Fresh off" outline="The floor" size="title" className="mt-3" />
+            <p className="text-body-2 mt-5 max-w-lg">The last couple of events, in pictures.</p>
+          </Reveal>
+          <EventRecap recaps={recaps} />
+        </section>
+      ) : null}
 
       {/* --------------------------------------------------- recent events */}
       {past.length > 0 ? (

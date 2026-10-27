@@ -8,7 +8,7 @@ import { partners } from "@/content/partners";
 import { site } from "@/content/site";
 import { sponsors } from "@/content/sponsors";
 import { currentTerm, team, teamComplete } from "@/content/team";
-import type { EventItem, TeamCategory, TeamMember } from "@/content/schema";
+import type { EventItem, GalleryAlbum, TeamCategory, TeamMember } from "@/content/schema";
 import { isPast } from "@/lib/dates";
 
 /**
@@ -231,6 +231,26 @@ export async function getInstagramFeed(limit?: number) {
     posts: limit ? ordered.slice(0, limit) : ordered,
     syncedAt: instagramSyncedAt,
   };
+}
+
+/**
+ * The last few events that actually have photographs, paired with their album.
+ *
+ * This is what the homepage recap section renders. Events without an album are skipped
+ * rather than shown empty — a recap with no pictures is just a card, and the page already
+ * has a rail of those.
+ */
+export async function getRecentRecaps(limit = 2) {
+  return events
+    .filter(isTopLevel)
+    .filter((event) => isPast(event) && event.gallerySlug)
+    .sort(byDateDescending)
+    .map((event) => ({
+      event,
+      album: gallery.find((a) => a.slug === event.gallerySlug),
+    }))
+    .filter((recap): recap is { event: EventItem; album: GalleryAlbum } => Boolean(recap.album))
+    .slice(0, limit);
 }
 
 export async function getPartners() {

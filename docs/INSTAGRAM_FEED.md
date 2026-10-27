@@ -59,6 +59,23 @@ IG_ACCESS_TOKEN=... IG_USER_ID=... pnpm sync-instagram
 
 Or trigger either workflow from the Actions tab — both accept `workflow_dispatch`.
 
+## The other workflow: daily-rebuild.yml
+
+Separate concern, same symptom if it is missing. The site is static, so "upcoming" versus
+"recent" is decided by `isPast()` **at build time**. With no rebuild, that decision stays
+frozen: Grand Bid Prix ran on 9 October and the deployed site still advertised
+"Registrations open" eighteen days later, because nothing had pushed a commit since.
+
+`daily-rebuild.yml` pokes a Vercel deploy hook once a day so time passing is enough to
+update the site. It needs one secret:
+
+| Secret                   | Where to get it                                      |
+| ------------------------ | ---------------------------------------------------- |
+| `VERCEL_DEPLOY_HOOK_URL` | Vercel → Project → Settings → Git → Deploy Hooks      |
+
+Without it the workflow logs a warning and exits cleanly rather than failing — but the
+deployed site will keep showing past events as upcoming.
+
 ## When it breaks
 
 **The feed stopped updating.** Check the Actions tab. A failing `check` job with a warning

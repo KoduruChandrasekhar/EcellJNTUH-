@@ -349,15 +349,21 @@ Run in collaboration with **Hexawatts**.`,
       poster: "/images/events/grand-bid-prix/poster.webp",
       posterAlt:
         "Grand Bid Prix poster: the title in red and black over a racing-track swoosh and a Formula car, with the 9 October date and the four auction components listed beneath",
-      startsAt: "2026-10-09T17:00:00+05:30",
-      // TODO: neither the poster nor the registration form gives a start time or venue.
-      timeTbc: true,
-      venue: "To be announced",
+      results: [
+        { position: 1, teamName: "Team Janata Garage" },
+        { position: 2, teamName: "Team Maverick" },
+        { position: 3, teamName: "Team Leclerc" },
+      ],
+      startsAt: "2026-10-09T16:30:00+05:30",
+      venue: "SIT Seminar Hall, JNTUH Kukatpally",
+      // The form stays on record even though the event is over: status is computed from
+      // the date, so the page never offers a dead link.
       registration: {
         mode: "external",
         url: "https://forms.gle/iKEtwaeo5Nqbm7N58",
         label: "Assemble your team",
       },
+      gallerySlug: "grand-bid-prix",
     },
 
     /* --------------------------------------------------- 2026 Unveil */

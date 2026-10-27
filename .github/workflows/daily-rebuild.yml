@@ -1,0 +1,39 @@
+name: Daily rebuild
+
+# A static site decides "upcoming" vs "recent" at build time, from isPast(). Without a
+# rebuild that decision is frozen: an event that has already happened keeps showing as
+# upcoming, with its registration link live, until someone pushes a commit.
+#
+# That is exactly what happened to Grand Bid Prix — it ran on 9 October and the deployed
+# site was still advertising "Registrations open" eighteen days later. Content freshness
+# is handled by sync-instagram.yml; this handles the passage of time, which needs no
+# content change at all.
+on:
+  schedule:
+    # 00:30 IST — early morning in India, so a day's events flip over before anyone looks.
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask Vercel to rebuild
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK_URL is not set, so nothing was rebuilt."
+            echo "Create one at Vercel → Project → Settings → Git → Deploy Hooks and add"
+            echo "it as a repository secret. Until then the deployed site will keep showing"
+            echo "past events as upcoming."
+            exit 0
+          fi
+          # The hook URL is a credential; never echo it.
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$HOOK")
+          if [ "$code" -ge 200 ] && [ "$code" -lt 300 ]; then
+            echo "Rebuild triggered (HTTP $code)."
+          else
+            echo "::error::Deploy hook returned HTTP $code."
+            exit 1
+          fi
