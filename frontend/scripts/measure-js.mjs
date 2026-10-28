@@ -21,7 +21,15 @@ import path from "node:path";
 const ORIGIN = process.env.MEASURE_ORIGIN ?? "http://localhost:3000";
 const TOTAL_BUDGET_KB = 170;
 const APP_BUDGET_KB = 50;
-const ROUTES = process.argv.slice(2).length ? process.argv.slice(2) : ["/", "/team", "/styleguide"];
+/**
+ * Public routes only. /styleguide used to be in here and made the script crash: it calls
+ * notFound() in production unless NEXT_PUBLIC_SHOW_STYLEGUIDE is set, so against a real
+ * `pnpm start` it is a 404 by design. An event page replaces it — heavier and far more
+ * representative of what a visitor actually loads.
+ */
+const ROUTES = process.argv.slice(2).length
+  ? process.argv.slice(2)
+  : ["/", "/events", "/events/ethos-2026", "/team"];
 
 /**
  * A chunk counts as framework only when it carries React's reconciler, Next's router
@@ -38,7 +46,13 @@ const fmt = (n) => n.toFixed(1).padStart(6);
 
 async function measure(route) {
   const res = await fetch(ORIGIN + route);
-  if (!res.ok) throw new Error(`${route} returned ${res.status}`);
+  if (!res.ok) {
+    // A bare throw here surfaced as an unhandled rejection and a libuv assertion on
+    // Windows, which buried the actual cause. Say what went wrong instead.
+    throw new Error(
+      `${route} returned ${res.status}. Is \`pnpm start\` running on ${ORIGIN}, and does that route exist in a production build?`,
+    );
+  }
   const html = await res.text();
 
   let framework = 0;

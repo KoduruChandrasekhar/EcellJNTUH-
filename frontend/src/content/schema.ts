@@ -256,6 +256,32 @@ export const instagramPostSchema = z.object({
   postedAt: isoDateTime,
 });
 
+/* ---------------------------------------------------- case studies */
+
+/**
+ * A business breakdown the club has published — the Instagram carousels that pull a
+ * company apart rather than announce an event.
+ *
+ * Kept separate from `instagramPosts` on purpose. That feed is a rolling window of the
+ * last four posts and churns constantly; these are evergreen and worth keeping long after
+ * they scroll off the grid. The cover lives in /public for the same reason as everywhere
+ * else: Instagram's CDN links are signed and expire.
+ */
+export const caseStudySchema = z.object({
+  id: z.string().min(1),
+  /** What the breakdown is about — "CRED", "Housing.com". Rendered as the eyebrow. */
+  subject: z.string().min(1),
+  title: z.string().min(1),
+  summary: z.string().min(1).max(400),
+  image: publicPath,
+  imageAlt: z.string().min(1),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  /** The post itself — the full breakdown lives there, not here. */
+  url: httpsUrl,
+  publishedAt: isoDateTime,
+});
+
 /* ------------------------------------------------------- initiatives etc. */
 
 export const initiativeSchema = z.object({
@@ -373,6 +399,7 @@ export type Registration = z.infer<typeof registrationSchema>;
 export type TeamMember = z.infer<typeof teamMemberSchema>;
 export type TeamCategory = z.infer<typeof teamCategorySchema>;
 export type Initiative = z.infer<typeof initiativeSchema>;
+export type CaseStudy = z.infer<typeof caseStudySchema>;
 export type InstagramPost = z.infer<typeof instagramPostSchema>;
 export type GalleryAlbum = z.infer<typeof galleryAlbumSchema>;
 export type Partner = z.infer<typeof partnerSchema>;

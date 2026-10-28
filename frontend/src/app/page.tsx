@@ -16,6 +16,7 @@ import { SplitHeadline } from "@/components/motion/SplitHeadline";
 import { Typewriter } from "@/components/motion/Typewriter";
 import { Countdown } from "@/components/sections/Countdown";
 import { EventCard } from "@/components/sections/EventCard";
+import { CaseStudies } from "@/components/sections/CaseStudies";
 import { EventRecap } from "@/components/sections/EventRecap";
 import { HeroComposition } from "@/components/sections/HeroComposition";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
@@ -28,6 +29,7 @@ import {
   getGallery,
   getInitiatives,
   getPartners,
+  getCaseStudies,
   getInstagramFeed,
   getPastEvents,
   getRecentRecaps,
@@ -52,6 +54,7 @@ export default async function HomePage() {
     albums,
     feed,
     recaps,
+    studies,
   ] = await Promise.all([
     getSiteConfig(),
     getStats(),
@@ -64,6 +67,7 @@ export default async function HomePage() {
     getGallery(),
     getInstagramFeed(4),
     getRecentRecaps(2),
+    getCaseStudies(4),
   ]);
 
   const sessions = flagship ? await getSubEvents(flagship.slug) : [];
@@ -465,6 +469,23 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ------------------------------------------------- case studies */}
+      {studies.length > 0 ? (
+        <section className="bg-surface-2 border-line-soft section-y border-y">
+          <div className="container-site">
+            <Reveal>
+              <SectionEyebrow>Breaking it down</SectionEyebrow>
+              <SplitHeadline solid="Case" outline="Studies" size="title" className="mt-3" />
+              <p className="text-body-2 mt-5 max-w-xl">
+                Companies pulled apart — what worked, what didn&apos;t, and why. Written by the
+                club, read in full on Instagram.
+              </p>
+            </Reveal>
+            <CaseStudies studies={studies} />
+          </div>
+        </section>
+      ) : null}
+
       {/* ------------------------------------------------------- follow us */}
       <section className="container-site section-y">
         <Reveal>
@@ -472,7 +493,7 @@ export default async function HomePage() {
           <SplitHeadline solid="See it" outline="As it happens" size="title" className="mt-3" />
           <p className="text-body-2 mt-5 max-w-lg">
             {feed.posts.length > 0
-              ? "Straight from @ecell_jntuh — pulled in automatically, served from our own images, with no embed script loading in your browser."
+              ? "Straight from @ecell_jntuh, served from our own images — no embed script, so nothing third-party loads in your browser."
               : "Every event lands on Instagram first. These are our own posters, served from our own images — no embed script, so nothing third-party loads in your browser."}
           </p>
         </Reveal>

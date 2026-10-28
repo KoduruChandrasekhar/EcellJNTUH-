@@ -29,9 +29,9 @@ export const team = parseContent(
       position: "President",
       category: "core",
       term: "2026-27",
-      // TODO: verify this profile URL — the one supplied ended in a trailing hyphen and
-      // may be truncated. A LinkedIn link that 404s is worse than no link.
-      linkedin: "https://in.linkedin.com/in/sai-naishika-bollikonda-",
+      // The trailing hyphen is part of the real vanity URL, confirmed against LinkedIn's
+      // own mention links on the club page. Not a truncation.
+      linkedin: "https://www.linkedin.com/in/sai-naishika-bollikonda-/",
       order: 0,
     },
     {
@@ -49,7 +49,7 @@ export const team = parseContent(
       position: "PR and Outreach",
       category: "lead",
       term: "2026-27",
-      // TODO: LinkedIn profile pending.
+      linkedin: "https://www.linkedin.com/in/shreya-nambiar-9b7929325/",
       order: 2,
     },
     {
@@ -67,7 +67,7 @@ export const team = parseContent(
       position: "Social Media",
       category: "lead",
       term: "2026-27",
-      // TODO: LinkedIn profile pending.
+      linkedin: "https://www.linkedin.com/in/bhuvana-bhimavarapu-06b3b0431/",
       order: 4,
     },
     {
@@ -76,7 +76,7 @@ export const team = parseContent(
       position: "Social Media",
       category: "lead",
       term: "2026-27",
-      // TODO: LinkedIn profile pending.
+      linkedin: "https://www.linkedin.com/in/lahari-rompicharla-b94726326/",
       order: 5,
     },
     {
@@ -85,7 +85,9 @@ export const team = parseContent(
       position: "Event Planning and Ideation",
       category: "lead",
       term: "2026-27",
-      // TODO: LinkedIn profile pending.
+      // Her LinkedIn reads "Janamanchi Laxmi Srija", as did the ETHOS 2026 report.
+      // TODO: confirm which spelling she wants on the site.
+      linkedin: "https://www.linkedin.com/in/janamanchi-laxmi-srija-b8a45737a/",
       order: 6,
     },
     {

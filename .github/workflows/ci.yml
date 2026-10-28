@@ -11,7 +11,12 @@ concurrency:
   cancel-in-progress: true
 
 # The Next.js app lives in frontend/, not at the repo root, so every `run` step needs to
-# start there. Without this the whole workflow fails on "no package.json".
+# start there.
+#
+# This only covers `run` steps. `uses` actions ignore it entirely, so each one that looks
+# for a package.json or a lockfile has to be pointed at frontend/ explicitly — see
+# package_json_file and cache-dependency-path below. Missing that is what made every run
+# fail with "No pnpm version is specified".
 defaults:
   run:
     working-directory: frontend
@@ -22,12 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Reads the pinned pnpm version from "packageManager" in frontend/package.json.
       - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: frontend/package.json
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       # --frozen-lockfile fails the build if pnpm-lock.yaml doesn't match package.json,
       # so CI installs exactly what you installed locally.
@@ -54,12 +63,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: frontend/package.json
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - name: Audit dependencies
+
+      # The blocking gate is --prod: those are the packages that actually reach a
+      # visitor's browser. Dev tooling cannot, so a vulnerability in Lighthouse CI or
+      # Vitest is not a reason to refuse a deploy.
+      #
+      # It is also the only gate that *can* pass. @lhci/cli pulls in extract-zip through
+      # puppeteer, and extract-zip has no patched version at all, so auditing every
+      # dependency would fail permanently and the signal would be ignored within a week.
+      - name: Audit production dependencies
+        run: pnpm audit --audit-level high --prod
+
+      # Dev advisories still get reported, just without blocking the build.
+      - name: Audit everything (informational)
+        continue-on-error: true
         run: pnpm audit --audit-level high
 
 # NOTE: Lighthouse CI performance budgets are added to this workflow in Stage 4,

@@ -1,4 +1,5 @@
 import { about } from "@/content/about";
+import { caseStudies } from "@/content/case-studies";
 import { events } from "@/content/events";
 import { gallery } from "@/content/gallery";
 import { initiatives } from "@/content/initiatives";
@@ -251,6 +252,12 @@ export async function getRecentRecaps(limit = 2) {
     }))
     .filter((recap): recap is { event: EventItem; album: GalleryAlbum } => Boolean(recap.album))
     .slice(0, limit);
+}
+
+/** The club's business breakdowns, newest first. */
+export async function getCaseStudies(limit?: number) {
+  const ordered = [...caseStudies].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  return limit ? ordered.slice(0, limit) : ordered;
 }
 
 export async function getPartners() {
