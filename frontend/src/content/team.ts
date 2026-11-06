@@ -14,11 +14,8 @@ export const teamComplete = true;
  * Only confirmed people appear here. No placeholder humans: an incomplete team is honest,
  * an invented one is not.
  *
- * Nobody carries a photo. Four of the eight had one and four didn't, which made the grid
- * read as broken rather than partial — so the whole committee renders as the brand initials
- * block instead. Consistency beats a half-filled grid. Restore photos only when there is
- * one for every member; the originals are still in assets-source/team/ and come back with
- * `pnpm optimize-images`.
+ * Roles and membership follow the club's own "Introducing The New Heads" announcement on
+ * LinkedIn, which is the authoritative list.
  */
 export const team = parseContent(
   z.array(teamMemberSchema),
@@ -29,8 +26,7 @@ export const team = parseContent(
       position: "President",
       category: "core",
       term: "2026-27",
-      // The trailing hyphen is part of the real vanity URL, confirmed against LinkedIn's
-      // own mention links on the club page. Not a truncation.
+      photo: "/images/team/sai-naishika-bollikonda.webp",
       linkedin: "https://www.linkedin.com/in/sai-naishika-bollikonda-/",
       order: 0,
     },
@@ -40,64 +36,80 @@ export const team = parseContent(
       position: "Vice President",
       category: "core",
       term: "2026-27",
+      photo: "/images/team/supraja-tatikonda.webp",
       linkedin: "https://www.linkedin.com/in/supraja-tatikonda-607b042a6/",
       order: 1,
     },
     {
       id: "shreya-nambiar",
       name: "Shreya Nambiar",
-      position: "PR and Outreach",
+      position: "Head of PR & Outreach",
       category: "lead",
       term: "2026-27",
+      photo: "/images/team/shreya-nambiar.webp",
       linkedin: "https://www.linkedin.com/in/shreya-nambiar-9b7929325/",
       order: 2,
     },
     {
       id: "shriya-tallapragada",
       name: "Shriya Tallapragada",
-      position: "Design",
+      position: "Head of Design",
       category: "lead",
       term: "2026-27",
+      photo: "/images/team/shriya-tallapragada.webp",
       linkedin: "https://www.linkedin.com/in/shriya-tallapragada-0b9356380/",
       order: 3,
     },
     {
-      id: "bhuvana-b",
-      name: "Bhuvana B",
-      position: "Social Media",
+      id: "rahul-badam",
+      name: "Rahul Badam",
+      position: "Head of Finance & Logistics",
       category: "lead",
       term: "2026-27",
-      linkedin: "https://www.linkedin.com/in/bhuvana-bhimavarapu-06b3b0431/",
+      photo: "/images/team/rahul-badam.webp",
+      linkedin: "https://www.linkedin.com/in/rahulbadam/",
       order: 4,
     },
     {
-      id: "lahari-r",
-      name: "Lahari R",
-      position: "Social Media",
+      id: "lahari-rompicharla",
+      name: "Lahari Rompicharla",
+      position: "Head of Social Media & Marketing",
       category: "lead",
       term: "2026-27",
+      // TODO: her LinkedIn photo is only 100px, which renders soft. Initials block
+      // until a sharper one exists.
       linkedin: "https://www.linkedin.com/in/lahari-rompicharla-b94726326/",
       order: 5,
     },
     {
-      id: "srija-janamachari",
-      name: "Srija Janamachari",
-      position: "Event Planning and Ideation",
+      id: "bhuvana-bhimavarapu",
+      name: "Bhuvana Bhimavarapu",
+      position: "Head of Social Media & Marketing",
       category: "lead",
       term: "2026-27",
-      // Her LinkedIn reads "Janamanchi Laxmi Srija", as did the ETHOS 2026 report.
-      // TODO: confirm which spelling she wants on the site.
-      linkedin: "https://www.linkedin.com/in/janamanchi-laxmi-srija-b8a45737a/",
+      photo: "/images/team/bhuvana-bhimavarapu.webp",
+      linkedin: "https://www.linkedin.com/in/bhuvana-bhimavarapu-06b3b0431/",
       order: 6,
     },
     {
-      id: "rahul-badam",
-      name: "Rahul Badam",
-      position: "Finance and Logistics",
+      id: "janamanchi-laxmi-srija",
+      name: "Janamanchi Laxmi Srija",
+      position: "Head of Events Planning & Ideation",
       category: "lead",
       term: "2026-27",
-      linkedin: "https://www.linkedin.com/in/rahulbadam/",
+      photo: "/images/team/janamanchi-laxmi-srija.webp",
+      linkedin: "https://www.linkedin.com/in/janamanchi-laxmi-srija-b8a45737a/",
       order: 7,
+    },
+    {
+      id: "pruthvi-kothawar",
+      name: "Pruthvi Kothawar",
+      position: "Head of Events Planning & Ideation",
+      category: "lead",
+      term: "2026-27",
+      photo: "/images/team/pruthvi-kothawar.webp",
+      linkedin: "https://www.linkedin.com/in/pruthvi-kothawar-2022b9421/",
+      order: 8,
     },
   ],
   "team.ts",

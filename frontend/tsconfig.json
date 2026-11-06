@@ -24,13 +24,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
+  // `next typegen` owns the "include" list and re-adds ".next/dev/types" every run, so it
+  // cannot be removed here — it is filtered out by "exclude" at the bottom instead. That
+  // directory holds a dev-only route validator Next generates, and this project sets
+  // noUnusedLocals/noUnusedParameters, which flag that generated file and fail both
+  // `pnpm typecheck` and `next build` with errors in code we do not own.
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next/dev"]
 }

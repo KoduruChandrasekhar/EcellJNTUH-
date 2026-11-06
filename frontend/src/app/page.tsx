@@ -130,9 +130,9 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* On mobile the composition drops below the text and shrinks. */}
+          {/* On mobile the poster drops below the text and shrinks. */}
           <div className="order-last flex justify-center">
-            <div className="w-[min(20rem,72vw)] lg:w-full lg:max-w-lg">
+            <div className="w-[min(22rem,78vw)] lg:w-full lg:max-w-lg">
               <HeroComposition />
             </div>
           </div>

@@ -30,7 +30,10 @@ export function TeamCard({ member }: { member: TeamMember }) {
             alt={member.name}
             fill
             sizes="(min-width: 1024px) 280px, (min-width: 640px) 30vw, 45vw"
-            className="object-cover"
+            // object-top, not the default centre: these are standing portraits from the
+            // club's announcement cards, so a centred square crop lands on the torso and
+            // cuts the head off. Anchoring to the top keeps the face in frame.
+            className="object-cover object-top"
           />
         ) : (
           <div className="bg-ink dark:bg-night-2 absolute inset-0 grid place-items-center">

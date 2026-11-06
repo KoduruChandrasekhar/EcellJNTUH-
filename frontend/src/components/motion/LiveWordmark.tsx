@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,24 +19,48 @@ import { cn } from "@/lib/utils";
  * breaks the parent's clipped background, and the letters render invisible.
  */
 export function LiveWordmark({ text, className }: { text: string; className?: string }) {
-  const letters = [...text];
+  /**
+   * Grouped by word, not by letter.
+   *
+   * Every letter is its own inline-block so it can ride the wave, which also makes each
+   * one a legal line-break opportunity: "E-Cell JNTUH" could wrap to "E-CELL JNTU / H" in
+   * a narrow column. Holding each word in a nowrap span keeps breaks at the spaces, where
+   * they belong, at any width.
+   *
+   * The running index carries across words so the wave crosses the whole wordmark rather
+   * than restarting at each one.
+   */
+  const words = text.split(" ");
+  let index = -1;
 
   return (
     <span className={cn("inline-block", className)}>
       <span className="sr-only">{text}</span>
 
       <span aria-hidden className="inline-block">
-        {letters.map((char, i) => (
-          <span
-            key={`${char}-${i}`}
-            className="wordmark-letter inline-block"
-            // Each letter starts its wave slightly later than the one before, which is
-            // what turns a row of bobbing letters into a travelling wave.
-            style={{ animationDelay: `${i * 90}ms` }}
-          >
-            {/* A space has no glyph to animate, so it keeps its width explicitly. */}
-            {char === " " ? " " : char}
-          </span>
+        {words.map((word, w) => (
+          <Fragment key={`${word}-${w}`}>
+            {/* A real space between the word spans, not inside one: it has to render as a
+                gap AND stay the single place the line may break. Inside the nowrap span
+                it did neither — it collapsed, and "E-Cell JNTUH" ran together. */}
+            {w > 0 ? " " : null}
+            <span className="inline-block whitespace-nowrap">
+              {[...word].map((char, c) => {
+                index += 1;
+                return (
+                  <span
+                    key={`${char}-${c}`}
+                    className="wordmark-letter inline-block"
+                    // Each letter starts its wave slightly later than the one before, which
+                    // is what turns a row of bobbing letters into a travelling wave.
+                    style={{ animationDelay: `${index * 90}ms` }}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+            </span>
+          </Fragment>
         ))}
       </span>
     </span>
